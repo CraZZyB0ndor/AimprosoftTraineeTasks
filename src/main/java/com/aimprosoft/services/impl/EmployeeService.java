@@ -12,7 +12,7 @@ import java.util.List;
 
 public class EmployeeService implements IEmployeeService {
 
-    private final IEmployeeDao employeeDao = new EmployeeDao();
+    private final IEmployeeDao employeeDao = EmployeeDao.getEmployeeDao();
     private final OvalValidator<Employee> validator = new OvalValidator<>();
 
     @Override

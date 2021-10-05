@@ -2,6 +2,7 @@ package com.aimprosoft.commands.employee;
 
 import com.aimprosoft.commands.FrontCommand;
 import com.aimprosoft.exceptions.CRUDException;
+import com.aimprosoft.models.Department;
 import com.aimprosoft.models.Employee;
 import com.aimprosoft.services.impl.EmployeeService;
 import com.aimprosoft.utils.RequestUtils;
@@ -26,6 +27,7 @@ public class EmployeeEditFormCommand implements FrontCommand {
         if (employeeId != null) {
             return employeeService.getById(employeeId);
         }
-        return new Employee().withDepartmentId(RequestUtils.getInt(request.getParameter("departmentId")));
+        return new Employee().withDepartmentId(new Department()
+                .withId(RequestUtils.getInt(request.getParameter("departmentId"))));
     }
 }

@@ -12,7 +12,7 @@
 <form action="createOrEditEmployee" method="post" class="creation-form">
 
     <input type="hidden" name="id" value="${employee.id}">
-    <input type="hidden" name="departmentId" value="${employee.departmentId}">
+    <input type="hidden" name="departmentId" value="${employee.departmentId.id}">
 
     <div class="input-name">
         <span>Enter name: </span>
@@ -52,7 +52,7 @@
     </div>
     <div class="control-elements">
         <input type="submit" value="Save">
-        <a href="displayEmployees?departmentId=${employee.departmentId}">Back</a>
+        <a href="displayEmployees?departmentId=${employee.departmentId.id}">Back</a>
     </div>
 </form>
 </body>

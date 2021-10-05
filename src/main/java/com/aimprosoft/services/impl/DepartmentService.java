@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DepartmentService implements IDepartmentService {
 
-    private final IDepartmentDao departmentDao = new DepartmentDao();
+    private final IDepartmentDao departmentDao = DepartmentDao.getDepartmentDao();
     private final OvalValidator<Department> validator = new OvalValidator<>();
 
     @Override

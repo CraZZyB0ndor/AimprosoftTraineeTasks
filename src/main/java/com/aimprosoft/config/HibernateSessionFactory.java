@@ -1,7 +1,6 @@
 package com.aimprosoft.config;
 
-import com.aimprosoft.models.Department;
-import com.aimprosoft.models.Employee;
+import com.github.fluent.hibernate.cfg.scanner.EntityScanner;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -12,12 +11,8 @@ final public class HibernateSessionFactory {
 
     static {
         final Configuration configuration = new Configuration().configure();
-        /*
         EntityScanner.scanPackages("com.aimprosoft.models")
-              .addTo(configuration);
-        */
-        configuration.addAnnotatedClass(Department.class);
-        configuration.addAnnotatedClass(Employee.class);
+                .addTo(configuration);
         final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         factory = configuration.buildSessionFactory(builder.build());
     }
@@ -26,6 +21,5 @@ final public class HibernateSessionFactory {
         return factory;
     }
 
-    private HibernateSessionFactory() {
-    }
+    private HibernateSessionFactory() {}
 }

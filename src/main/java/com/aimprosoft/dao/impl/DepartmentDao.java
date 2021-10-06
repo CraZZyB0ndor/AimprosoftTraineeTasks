@@ -67,7 +67,7 @@ public final class DepartmentDao implements IDepartmentDao {
     @Override
     public boolean isExistByName(Department department) throws CRUDException {
         try (final Session session = factory.openSession()) {
-            final Department departmentFromDb = session.createQuery("FROM Department d WHERE d.name = :name", Department.class)
+            final Department departmentFromDb = session.createQuery("FROM Department WHERE name = :name", Department.class)
                     .setParameter("name", department.getName()).uniqueResult();
             if (department.getId() != null) {
                 if (departmentFromDb != null) {

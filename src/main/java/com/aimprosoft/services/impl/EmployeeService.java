@@ -1,7 +1,7 @@
 package com.aimprosoft.services.impl;
 
 import com.aimprosoft.dao.IEmployeeDao;
-import com.aimprosoft.dao.impl.EmployeeDao;
+import com.aimprosoft.dao.impl.HibernateEmployeeDao;
 import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.services.IEmployeeService;
 import com.aimprosoft.validation.OvalValidator;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class EmployeeService implements IEmployeeService {
 
-    private final IEmployeeDao employeeDao = EmployeeDao.getEmployeeDao();
+    private final IEmployeeDao employeeDao = HibernateEmployeeDao.getEmployeeDao();
     private final OvalValidator<Employee> validator = new OvalValidator<>();
 
     @Override

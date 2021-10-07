@@ -9,19 +9,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import java.sql.*;
-import java.util.LinkedList;
 import java.util.List;
 
-public final class EmployeeDao implements IEmployeeDao {
+public final class HibernateEmployeeDao implements IEmployeeDao {
 
     private static final SessionFactory factory = HibernateSessionFactory.getSessionFactory();
 
-    public static EmployeeDao getEmployeeDao() {
-        return new EmployeeDao();
+    public static HibernateEmployeeDao getEmployeeDao() {
+        return new HibernateEmployeeDao();
     }
 
-    private EmployeeDao() {
+    private HibernateEmployeeDao() {
     }
 
     @Override
@@ -30,11 +28,7 @@ public final class EmployeeDao implements IEmployeeDao {
         try (final Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             obj.setDepartmentId(session.get(Department.class, obj.getDepartmentId().getId()));
-            if (obj.getId() == null) {
-                session.persist(obj);
-            } else {
-                session.update(obj);
-            }
+            session.saveOrUpdate(obj);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
@@ -83,10 +77,8 @@ public final class EmployeeDao implements IEmployeeDao {
         try (final Session session = factory.openSession()) {
             final Employee employeeFromDb = session.createQuery("FROM Employee WHERE email = :email", Employee.class)
                     .setParameter("email", employee.getEmail()).uniqueResult();
-            if (employee.getId() != null) {
-                if (employeeFromDb != null) {
-                    return !employeeFromDb.getId().equals(employee.getId());
-                }
+            if (employee.getId() != null && employeeFromDb != null) {
+                return !employeeFromDb.getId().equals(employee.getId());
             }
             return employeeFromDb != null;
         } catch (Exception ex) {

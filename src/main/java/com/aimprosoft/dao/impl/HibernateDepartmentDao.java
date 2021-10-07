@@ -10,15 +10,15 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public final class DepartmentDao implements IDepartmentDao {
+public final class HibernateDepartmentDao implements IDepartmentDao {
 
     private static final SessionFactory factory = HibernateSessionFactory.getSessionFactory();
 
-    public static DepartmentDao getDepartmentDao() {
-        return new DepartmentDao();
+    public static HibernateDepartmentDao getDepartmentDao() {
+        return new HibernateDepartmentDao();
     }
 
-    private DepartmentDao() {
+    private HibernateDepartmentDao() {
     }
 
     @Override
@@ -26,11 +26,7 @@ public final class DepartmentDao implements IDepartmentDao {
         Transaction transaction = null;
         try (final Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            if (department.getId() == null) {
-                session.persist(department);
-            } else {
-                session.update(department);
-            }
+            session.saveOrUpdate(department);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
@@ -69,10 +65,8 @@ public final class DepartmentDao implements IDepartmentDao {
         try (final Session session = factory.openSession()) {
             final Department departmentFromDb = session.createQuery("FROM Department WHERE name = :name", Department.class)
                     .setParameter("name", department.getName()).uniqueResult();
-            if (department.getId() != null) {
-                if (departmentFromDb != null) {
-                    return !departmentFromDb.getId().equals(department.getId());
-                }
+            if (department.getId() != null && departmentFromDb != null) {
+                return !departmentFromDb.getId().equals(department.getId());
             }
             return departmentFromDb != null;
         } catch (Exception ex) {

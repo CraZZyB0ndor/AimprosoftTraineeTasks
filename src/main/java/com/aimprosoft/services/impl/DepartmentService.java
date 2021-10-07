@@ -1,7 +1,7 @@
 package com.aimprosoft.services.impl;
 
 import com.aimprosoft.dao.IDepartmentDao;
-import com.aimprosoft.dao.impl.DepartmentDao;
+import com.aimprosoft.dao.impl.HibernateDepartmentDao;
 import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.services.IDepartmentService;
 import com.aimprosoft.validation.OvalValidator;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DepartmentService implements IDepartmentService {
 
-    private final IDepartmentDao departmentDao = DepartmentDao.getDepartmentDao();
+    private final IDepartmentDao departmentDao = HibernateDepartmentDao.getDepartmentDao();
     private final OvalValidator<Department> validator = new OvalValidator<>();
 
     @Override

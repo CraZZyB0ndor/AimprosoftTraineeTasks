@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.sf.oval.constraint.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +13,10 @@ import java.util.Date;
 
 @Table
 @Entity
+@NamedEntityGraph(
+        name = "employee-entity-graph",
+        attributeNodes = @NamedAttributeNode("departmentId")
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @With

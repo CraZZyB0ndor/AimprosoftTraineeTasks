@@ -16,7 +16,7 @@ final public class JDBConnectivity {
         try {
             properties.load(
                     new FileInputStream(Objects.requireNonNull(
-                            JDBConnectivity.class.getClassLoader().getResource("database.properties")).getPath()));
+                            JDBConnectivity.class.getClassLoader().getResource("hibernate.properties")).getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }

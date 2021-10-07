@@ -50,7 +50,7 @@ public final class HibernateDepartmentDao implements IDepartmentDao {
         Transaction transaction = null;
         try (final Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            session.delete(session.get(Department.class, id));
+            session.delete(session.load(Department.class, id));
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {

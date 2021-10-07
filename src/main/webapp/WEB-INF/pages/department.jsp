@@ -24,13 +24,18 @@
                 <tr>
                     <td>${department.id}</td>
                     <td><c:out value="${department.name}"/></td>
-                    <td>
-                        <a href="displayEmployees?departmentId=${department.id}">List of
-                            employees</a>
-                        |
-                        <a href="openDepartmentForm?id=${department.id}&name=<c:out value="${department.name}"/>">Edit</a>
-                        |
-                        <a href="deleteDepartment?departmentId=${department.id}">Delete</a>
+                    <td class="control-table-elements">
+                        <div>
+                            <a href="displayEmployees?departmentId=${department.id}">List of
+                                employees</a>
+                            |
+                            <a href="openDepartmentForm?id=${department.id}&name=<c:out value="${department.name}"/>">Edit</a>
+                            |
+                            <form action="deleteDepartment">
+                                <input type="hidden" name="departmentId" value="${department.id}">
+                                <button>Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

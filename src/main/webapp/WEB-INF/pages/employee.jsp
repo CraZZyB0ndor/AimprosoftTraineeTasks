@@ -39,10 +39,16 @@
                     <td>${employee.email}</td>
                     <td>${employee.age}</td>
                     <td>${employee.startWorkingDate}</td>
-                    <td>
-                        <a href="openEmployeeForm?id=${employee.id}&departmentId=${departmentId}">Edit</a>
-                        |
-                        <a href="deleteEmployee?id=${employee.id}&departmentId=${departmentId}">Delete</a>
+                    <td class="employee-control-table-elements">
+                        <div>
+                            <a href="openEmployeeForm?id=${employee.id}&departmentId=${departmentId}">Edit</a>
+                            |
+                            <form action="deleteEmployee">
+                                <input type="hidden" name="id" value="${employee.id}">
+                                <input type="hidden" name="departmentId" value="${departmentId}">
+                                <button>Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

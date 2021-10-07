@@ -60,6 +60,25 @@ td {
     vertical-align: center;
 }
 
+.control-table-elements {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-table-elements>div,
+.employee-control-table-elements>div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+.employee-control-table-elements>div {
+    width: 100%;
+}
+
 .row-container {
 
     display: flex;

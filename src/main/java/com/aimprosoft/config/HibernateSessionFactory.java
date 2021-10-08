@@ -1,5 +1,6 @@
 package com.aimprosoft.config;
 
+import com.aimprosoft.utils.PropertiesUtils;
 import com.github.fluent.hibernate.cfg.scanner.EntityScanner;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -16,13 +17,7 @@ final public class HibernateSessionFactory {
 
     static {
         final Configuration configuration = new Configuration();
-        final Properties properties = new Properties();
-        try {
-            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("hibernate.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        configuration.setProperties(properties);
+        configuration.setProperties(PropertiesUtils.getPropertiesByName("hibernate.properties"));
         EntityScanner.scanPackages("com.aimprosoft.models")
                 .addTo(configuration);
         final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()

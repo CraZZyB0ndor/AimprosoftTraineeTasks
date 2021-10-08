@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RequestUtils {
+public final class RequestUtils {
 
     public static Integer getInt(String possNum) {
         if (possNum != null && !possNum.isEmpty()) {

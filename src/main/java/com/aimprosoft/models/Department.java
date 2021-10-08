@@ -18,7 +18,7 @@ import java.io.Serializable;
 @With
 @Data
 @Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Department implements Serializable {
 
     @Id

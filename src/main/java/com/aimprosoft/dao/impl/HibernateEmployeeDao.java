@@ -9,10 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import javax.persistence.EntityGraph;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class HibernateEmployeeDao implements IEmployeeDao {
 
@@ -54,9 +51,6 @@ public final class HibernateEmployeeDao implements IEmployeeDao {
     @Override
     public Employee getById(Integer id) throws CRUDException {
         try (final Session session = factory.openSession();) {
-            //Map<String, Object> properties = new HashMap<>();
-            //properties.put("java.persistence.fetchgraph", session.getEntityGraph("employee-entity-graph"));
-            //Employee employee = session.find(Employee.class, id, properties);// get(Employee.class, id);
             return session.get(Employee.class, id);
         } catch (Exception ex) {
             throw new CRUDException("get employee by id");

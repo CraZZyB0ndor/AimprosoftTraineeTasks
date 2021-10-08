@@ -1,26 +1,15 @@
 package com.aimprosoft.config;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import com.aimprosoft.utils.PropertiesUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Properties;
 
 final public class JDBConnectivity {
 
-    public static Properties properties = new Properties();
-
-    static {
-        try {
-            properties.load(
-                    new FileInputStream(Objects.requireNonNull(
-                            JDBConnectivity.class.getClassLoader().getResource("hibernate.properties")).getPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public static Properties properties = PropertiesUtils.getPropertiesByName("database.properties");
 
     public static Connection getConnection() throws SQLException {
         try {

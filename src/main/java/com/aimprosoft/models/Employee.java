@@ -23,7 +23,7 @@ import java.util.Date;
 @With
 @Data
 @Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee implements Serializable {
 
     @Id
@@ -32,7 +32,7 @@ public class Employee implements Serializable {
     private Integer id;
     @JoinColumn(name = "departmentId")
     @ManyToOne
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Department departmentId;
     @NotNull(message = "This field is required!")
     @Length(max = 32, min = 2, message = "Incorrect name!")

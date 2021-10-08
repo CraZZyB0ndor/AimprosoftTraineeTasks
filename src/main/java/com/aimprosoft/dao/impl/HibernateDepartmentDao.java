@@ -64,6 +64,7 @@ public final class HibernateDepartmentDao implements IDepartmentDao {
     public boolean isExistByName(Department department) throws CRUDException {
         try (final Session session = factory.openSession()) {
             final Department departmentFromDb = session.createQuery("FROM Department WHERE name = :name", Department.class)
+                    .setCacheable(true)
                     .setParameter("name", department.getName()).uniqueResult();
             if (department.getId() != null && departmentFromDb != null) {
                 return !departmentFromDb.getId().equals(department.getId());

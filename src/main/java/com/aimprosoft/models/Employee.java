@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.sf.oval.constraint.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +22,8 @@ import java.util.Date;
 @NoArgsConstructor
 @With
 @Data
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Employee implements Serializable {
 
     @Id
@@ -29,6 +32,7 @@ public class Employee implements Serializable {
     private Integer id;
     @JoinColumn(name = "departmentId")
     @ManyToOne
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private Department departmentId;
     @NotNull(message = "This field is required!")
     @Length(max = 32, min = 2, message = "Incorrect name!")

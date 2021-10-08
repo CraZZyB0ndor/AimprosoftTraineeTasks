@@ -82,6 +82,7 @@ public final class HibernateEmployeeDao implements IEmployeeDao {
     public boolean isExistByEmail(Employee employee) throws CRUDException {
         try (final Session session = factory.openSession()) {
             final Employee employeeFromDb = session.createQuery("FROM Employee WHERE email = :email", Employee.class)
+                    .setCacheable(true)
                     .setParameter("email", employee.getEmail()).uniqueResult();
             if (employee.getId() != null && employeeFromDb != null) {
                 return !employeeFromDb.getId().equals(employee.getId());

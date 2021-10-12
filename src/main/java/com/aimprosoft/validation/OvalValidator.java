@@ -1,16 +1,22 @@
 package com.aimprosoft.validation;
 
 import com.aimprosoft.exceptions.ValidateException;
+import lombok.AllArgsConstructor;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
+import net.sf.oval.integration.spring.SpringValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class OvalValidator<T> {
+@Component
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+public class OvalValidator<T>  {
 
-    private final Validator validator = new Validator();
+    private final Validator validator;
 
     public void validate(T obj) throws ValidateException {
         final List<ConstraintViolation> errors = validator.validate(obj);

@@ -1,31 +1,30 @@
 package com.aimprosoft.dao.impl;
 
-import com.aimprosoft.config.HibernateSessionFactory;
 import com.aimprosoft.dao.IEmployeeDao;
 import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.models.Department;
 import com.aimprosoft.models.Employee;
+import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public final class HibernateEmployeeDao implements IEmployeeDao {
+@Repository
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+public class HibernateEmployeeDao implements IEmployeeDao {
 
-    private static final SessionFactory factory = HibernateSessionFactory.getSessionFactory();
-
-    public static HibernateEmployeeDao getEmployeeDao() {
-        return new HibernateEmployeeDao();
-    }
-
-    private HibernateEmployeeDao() {
-    }
+    private final SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void createOrUpdate(Employee obj) throws CRUDException {
         Transaction transaction = null;
-        try (final Session session = factory.openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             obj.setDepartmentId(session.get(Department.class, obj.getDepartmentId().getId()));
             session.saveOrUpdate(obj);
@@ -39,8 +38,9 @@ public final class HibernateEmployeeDao implements IEmployeeDao {
     }
 
     @Override
+    @Transactional
     public List<Employee> getAllByForeignId(Integer otherObjId) throws CRUDException {
-        try (final Session session = factory.openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             return session.createQuery("from Employee  WHERE departmentId.id = :departmentId", Employee.class)
                     .setParameter("departmentId", otherObjId).list();
         } catch (Exception ex) {
@@ -49,8 +49,9 @@ public final class HibernateEmployeeDao implements IEmployeeDao {
     }
 
     @Override
+    @Transactional
     public Employee getById(Integer id) throws CRUDException {
-        try (final Session session = factory.openSession();) {
+        try (final Session session = sessionFactory.openSession();) {
             return session.get(Employee.class, id);
         } catch (Exception ex) {
             throw new CRUDException("get employee by id");
@@ -58,9 +59,10 @@ public final class HibernateEmployeeDao implements IEmployeeDao {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) throws CRUDException {
         Transaction transaction = null;
-        try (final Session session = factory.openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.delete(session.get(Employee.class, id));
             transaction.commit();
@@ -73,8 +75,9 @@ public final class HibernateEmployeeDao implements IEmployeeDao {
     }
 
     @Override
+    @Transactional
     public boolean isExistByEmail(Employee employee) throws CRUDException {
-        try (final Session session = factory.openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             final Employee employeeFromDb = session.createQuery("FROM Employee WHERE email = :email", Employee.class)
                     .setCacheable(true)
                     .setParameter("email", employee.getEmail()).uniqueResult();

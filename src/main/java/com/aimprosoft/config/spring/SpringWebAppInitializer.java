@@ -12,23 +12,15 @@ import javax.servlet.ServletRegistration;
 public class SpringWebAppInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) {
-
-        AnnotationConfigWebApplicationContext rootContext =
-                new AnnotationConfigWebApplicationContext();
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationContextConfig.class);
-
-        // Manage the lifecycle of the root application context
         servletContext.addListener(new ContextLoaderListener(rootContext));
-
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext =
-                new AnnotationConfigWebApplicationContext();
+        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
         dispatcherContext.register(MainController.class);
-
-
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet(
-                MainController.class.getSimpleName(), new DispatcherServlet(dispatcherContext));
-       dispatcher.setLoadOnStartup(1);
-       dispatcher.addMapping("/");
+                MainController.class.getSimpleName(),
+                new DispatcherServlet(dispatcherContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
     }
 }

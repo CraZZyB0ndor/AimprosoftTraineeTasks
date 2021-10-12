@@ -4,7 +4,6 @@ import com.aimprosoft.exceptions.ValidateException;
 import lombok.AllArgsConstructor;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.integration.spring.SpringValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +15,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class OvalValidator<T>  {
 
-    private final Validator validator;
+    private final Validator ovalValidator;
 
     public void validate(T obj) throws ValidateException {
-        final List<ConstraintViolation> errors = validator.validate(obj);
+        final List<ConstraintViolation> errors = ovalValidator.validate(obj);
         if (!errors.isEmpty()) {
             Map<String, List<String>> errorsMap = errors.stream().collect(Collectors.groupingBy(item ->
                             item.getCheckDeclaringContext().toStringUnqualified(),

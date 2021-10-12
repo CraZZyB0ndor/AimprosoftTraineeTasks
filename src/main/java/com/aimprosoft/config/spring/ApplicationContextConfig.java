@@ -1,30 +1,26 @@
 package com.aimprosoft.config.spring;
 
 import com.aimprosoft.config.HibernateSessionFactory;
-import com.aimprosoft.models.Department;
-import com.aimprosoft.models.Employee;
-import com.aimprosoft.services.impl.CommandFactory;
 import com.aimprosoft.utils.PropertiesUtils;
 import com.aimprosoft.validation.OvalValidator;
-import com.aimprosoft.validation.department.IsUniqueNameCheck;
 import net.sf.oval.Validator;
+import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
+import net.sf.oval.guard.GuardInterceptor;
+import net.sf.oval.integration.spring.SpringCheckInitializationListener;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 
 
 @Configuration
-@ComponentScan("com.aimprosoft")
+@ComponentScan({"com.aimprosoft", "net.sf.oval.integration.spring"})
 @EnableTransactionManagement
 public class ApplicationContextConfig {
 
@@ -41,14 +37,21 @@ public class ApplicationContextConfig {
     }
      */
 
-    @Bean
-    public Validator getValidator() {
-        return new Validator();
+    @Bean(name = "ovalValidator")
+    public Validator validator() {
+        AnnotationsConfigurer annotationsConfigurer = new AnnotationsConfigurer();
+        annotationsConfigurer.addCheckInitializationListener(SpringCheckInitializationListener.INSTANCE);
+        return new Validator(annotationsConfigurer);
     }
 
     @Bean
-    public OvalValidator<?> validator(@Qualifier("getValidator") Validator validator) {
+    public OvalValidator<?> validator(@Qualifier("ovalValidator") Validator validator) {
         return new OvalValidator<>(validator);
+    }
+
+    @Bean
+    public GuardInterceptor ovalGuardInterceptor() {
+        return new GuardInterceptor();
     }
 
     @Bean

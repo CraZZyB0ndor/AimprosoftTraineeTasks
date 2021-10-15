@@ -1,32 +1,31 @@
 package com.aimprosoft.dao.impl;
 
-import com.aimprosoft.config.HibernateSessionFactory;
 import com.aimprosoft.dao.IEmployeeDao;
 import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.models.Department;
 import com.aimprosoft.models.Employee;
+import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public class HibernateEmployeeDao implements IEmployeeDao {
+@Repository
+@Transactional
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+public class SpringEmployeeDao implements IEmployeeDao {
 
-    private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    private final SessionFactory sessionFactory;
 
     @Override
     public void createOrUpdate(Employee obj) throws CRUDException {
-        Transaction transaction = null;
         try (final Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             obj.setDepartmentId(session.get(Department.class, obj.getDepartmentId().getId()));
             session.saveOrUpdate(obj);
-            transaction.commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new CRUDException("create or update employee");
         }
     }
@@ -43,7 +42,7 @@ public class HibernateEmployeeDao implements IEmployeeDao {
 
     @Override
     public Employee getById(Integer id) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
+        try (final Session session = sessionFactory.openSession();) {
             return session.get(Employee.class, id);
         } catch (Exception ex) {
             throw new CRUDException("get employee by id");
@@ -52,15 +51,9 @@ public class HibernateEmployeeDao implements IEmployeeDao {
 
     @Override
     public void deleteById(Integer id) throws CRUDException {
-        Transaction transaction = null;
         try (final Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             session.delete(session.get(Employee.class, id));
-            transaction.commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new CRUDException("delete employee by id");
         }
     }

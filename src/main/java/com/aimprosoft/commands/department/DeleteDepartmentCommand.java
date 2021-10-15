@@ -21,7 +21,6 @@ public class DeleteDepartmentCommand implements FrontCommand {
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, CRUDException {
-
         departmentService.deleteById(RequestUtils.getInt(request.getParameter("departmentId")));
         response.sendRedirect("displayDepartments");
     }

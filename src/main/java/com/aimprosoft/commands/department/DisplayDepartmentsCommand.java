@@ -4,11 +4,9 @@ import com.aimprosoft.commands.FrontCommand;
 import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.models.Department;
 import com.aimprosoft.services.IDepartmentService;
-import com.aimprosoft.services.impl.DepartmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +21,8 @@ public class DisplayDepartmentsCommand implements FrontCommand {
     private final IDepartmentService departmentService;
 
     @Override
-    public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, CRUDException {
-
+    public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException,
+            CRUDException {
         final List<Department> departments = departmentService.getAll();
         request.setAttribute("departments", departments);
         request.getServletContext().getRequestDispatcher("/WEB-INF/pages/department.jsp").forward(request, response);

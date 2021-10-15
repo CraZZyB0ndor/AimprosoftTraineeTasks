@@ -12,8 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class IsUniqueNameCheck implements CheckWithCheck.SimpleCheck {
 
-    @Autowired
     private IDepartmentService departmentService;
+
+    @Autowired
+    public void setDepartmentService(IDepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @Override
     public boolean isSatisfied(Object validatedObject, Object value, OValContext context, Validator validator) {

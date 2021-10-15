@@ -12,8 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class IsUniqueEmailCheck implements CheckWithCheck.SimpleCheck {
 
-    @Autowired
     private IEmployeeService employeeService;
+
+    @Autowired
+    public void setEmployeeService(IEmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @Override
     public boolean isSatisfied(Object validatedObject, Object value, OValContext context, Validator validator) {

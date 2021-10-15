@@ -1,30 +1,29 @@
 package com.aimprosoft.dao.impl;
 
-import com.aimprosoft.config.HibernateSessionFactory;
 import com.aimprosoft.dao.IDepartmentDao;
 import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.models.Department;
+import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public class HibernateDepartmentDao implements IDepartmentDao {
+@Repository
+@Transactional
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+public class SpringDepartmentDao implements IDepartmentDao {
 
-    private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    private final SessionFactory sessionFactory;
 
     @Override
     public void createOrUpdate(Department department) throws CRUDException {
-        Transaction transaction = null;
         try (final Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             session.saveOrUpdate(department);
-            transaction.commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new CRUDException("create or update department");
         }
     }
@@ -40,15 +39,9 @@ public class HibernateDepartmentDao implements IDepartmentDao {
 
     @Override
     public void deleteById(Integer id) throws CRUDException {
-        Transaction transaction = null;
         try (final Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             session.delete(session.load(Department.class, id));
-            transaction.commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new CRUDException("delete department by id");
         }
     }

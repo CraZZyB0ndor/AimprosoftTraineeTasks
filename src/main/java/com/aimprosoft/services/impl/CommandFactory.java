@@ -18,18 +18,18 @@ import java.util.Map;
 @Component
 public class CommandFactory {
 
-    private final Map<String, FrontCommand> commands;
-    private final DisplayDepartmentsCommand displayDepartmentsCommand;
+    private Map<String, FrontCommand> commands;
+    private DisplayDepartmentsCommand displayDepartmentsCommand;
 
     @Autowired
-    public CommandFactory(DisplayDepartmentsCommand displayDepartmentsCommand,
-                          DepartmentEditFormCommand departmentEditFormCommand,
-                          UpdateOrCreateDepartmentCommand updateOrCreateDepartmentCommand,
-                          DeleteDepartmentCommand deleteDepartmentCommand,
-                          DisplayEmployeeCommand displayEmployeeCommand,
-                          EmployeeEditFormCommand employeeEditFormCommand,
-                          UpdateOrCreateEmployeeCommand updateOrCreateEmployeeCommand,
-                          DeleteEmployeeCommand deleteEmployeeCommand) {
+    public void setCommandFactory(DisplayDepartmentsCommand displayDepartmentsCommand,
+                                  DepartmentEditFormCommand departmentEditFormCommand,
+                                  UpdateOrCreateDepartmentCommand updateOrCreateDepartmentCommand,
+                                  DeleteDepartmentCommand deleteDepartmentCommand,
+                                  DisplayEmployeeCommand displayEmployeeCommand,
+                                  EmployeeEditFormCommand employeeEditFormCommand,
+                                  UpdateOrCreateEmployeeCommand updateOrCreateEmployeeCommand,
+                                  DeleteEmployeeCommand deleteEmployeeCommand) {
         commands = new HashMap<>();
         commands.put("/displayDepartments", displayDepartmentsCommand);
         commands.put("/openDepartmentForm", departmentEditFormCommand);

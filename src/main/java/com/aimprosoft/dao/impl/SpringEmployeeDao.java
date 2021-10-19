@@ -36,7 +36,8 @@ public class SpringEmployeeDao implements IEmployeeDao {
     @Override
     public List<Employee> getAllByForeignId(Integer otherObjId) throws CRUDException {
         try {
-            return sessionFactory.getCurrentSession().createQuery("from Employee  WHERE departmentId.id = :departmentId", Employee.class)
+            return sessionFactory.getCurrentSession()
+                    .createQuery("from Employee  WHERE departmentId.id = :departmentId", Employee.class)
                     .setParameter("departmentId", otherObjId).list();
         } catch (Exception ex) {
             throw new CRUDException("get all employees by department id");

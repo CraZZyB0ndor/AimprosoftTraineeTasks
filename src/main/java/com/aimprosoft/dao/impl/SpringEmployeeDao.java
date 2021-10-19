@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,13 +17,15 @@ import java.util.List;
 @Repository
 @Transactional
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@EnableTransactionManagement
 public class SpringEmployeeDao implements IEmployeeDao {
 
     private final SessionFactory sessionFactory;
 
     @Override
     public void createOrUpdate(Employee obj) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
+        try {
+            final Session session = sessionFactory.getCurrentSession();
             obj.setDepartmentId(session.get(Department.class, obj.getDepartmentId().getId()));
             session.saveOrUpdate(obj);
         } catch (Exception ex) {
@@ -32,8 +35,8 @@ public class SpringEmployeeDao implements IEmployeeDao {
 
     @Override
     public List<Employee> getAllByForeignId(Integer otherObjId) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
-            return session.createQuery("from Employee  WHERE departmentId.id = :departmentId", Employee.class)
+        try {
+            return sessionFactory.getCurrentSession().createQuery("from Employee  WHERE departmentId.id = :departmentId", Employee.class)
                     .setParameter("departmentId", otherObjId).list();
         } catch (Exception ex) {
             throw new CRUDException("get all employees by department id");
@@ -42,8 +45,8 @@ public class SpringEmployeeDao implements IEmployeeDao {
 
     @Override
     public Employee getById(Integer id) throws CRUDException {
-        try (final Session session = sessionFactory.openSession();) {
-            return session.get(Employee.class, id);
+        try {
+            return sessionFactory.getCurrentSession().get(Employee.class, id);
         } catch (Exception ex) {
             throw new CRUDException("get employee by id");
         }
@@ -51,7 +54,8 @@ public class SpringEmployeeDao implements IEmployeeDao {
 
     @Override
     public void deleteById(Integer id) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.getCurrentSession();
             session.delete(session.get(Employee.class, id));
         } catch (Exception ex) {
             throw new CRUDException("delete employee by id");
@@ -60,8 +64,9 @@ public class SpringEmployeeDao implements IEmployeeDao {
 
     @Override
     public boolean isExistByEmail(Employee employee) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
-            final Employee employeeFromDb = session.createQuery("FROM Employee WHERE email = :email", Employee.class)
+        try {
+            final Employee employeeFromDb = sessionFactory.getCurrentSession()
+                    .createQuery("FROM Employee WHERE email = :email", Employee.class)
                     .setCacheable(true)
                     .setParameter("email", employee.getEmail()).uniqueResult();
             if (employee.getId() != null && employeeFromDb != null) {

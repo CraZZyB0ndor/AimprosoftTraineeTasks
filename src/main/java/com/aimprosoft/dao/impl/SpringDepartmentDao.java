@@ -8,21 +8,23 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
-@Transactional
+@Transactional(rollbackFor = CRUDException.class)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@EnableTransactionManagement
 public class SpringDepartmentDao implements IDepartmentDao {
 
     private final SessionFactory sessionFactory;
 
     @Override
     public void createOrUpdate(Department department) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
-            session.saveOrUpdate(department);
+        try {
+            sessionFactory.getCurrentSession().saveOrUpdate(department);
         } catch (Exception ex) {
             throw new CRUDException("create or update department");
         }
@@ -30,8 +32,8 @@ public class SpringDepartmentDao implements IDepartmentDao {
 
     @Override
     public List<Department> getAll() throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Department", Department.class).list();
+        try {
+            return sessionFactory.getCurrentSession().createQuery("FROM Department", Department.class).list();
         } catch (Exception ex) {
             throw new CRUDException("get all departments");
         }
@@ -39,7 +41,8 @@ public class SpringDepartmentDao implements IDepartmentDao {
 
     @Override
     public void deleteById(Integer id) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
+        try {
+            final Session session = sessionFactory.getCurrentSession();
             session.delete(session.load(Department.class, id));
         } catch (Exception ex) {
             throw new CRUDException("delete department by id");
@@ -48,8 +51,9 @@ public class SpringDepartmentDao implements IDepartmentDao {
 
     @Override
     public boolean isExistByName(Department department) throws CRUDException {
-        try (final Session session = sessionFactory.openSession()) {
-            final Department departmentFromDb = session.createQuery("FROM Department WHERE name = :name", Department.class)
+        try {
+            final Department departmentFromDb = sessionFactory.getCurrentSession()
+                    .createQuery("FROM Department WHERE name = :name", Department.class)
                     .setCacheable(true)
                     .setParameter("name", department.getName()).uniqueResult();
             if (department.getId() != null && departmentFromDb != null) {

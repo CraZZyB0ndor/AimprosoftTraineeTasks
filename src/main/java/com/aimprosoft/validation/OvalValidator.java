@@ -4,15 +4,12 @@ import com.aimprosoft.exceptions.ValidateException;
 import lombok.AllArgsConstructor;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class OvalValidator<T>  {
 
     private final Validator ovalValidator;

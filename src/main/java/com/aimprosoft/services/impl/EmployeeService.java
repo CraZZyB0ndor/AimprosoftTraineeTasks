@@ -26,8 +26,8 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public List<Employee> getAllByForeignId(Integer otherObjId) throws CRUDException {
-        return employeeDao.getAllByForeignId(otherObjId);
+    public List<Employee> getAllByEmployeeId(Integer employeeId) throws CRUDException {
+        return employeeDao.getAllByEmployeeId(employeeId);
     }
 
     @Override

@@ -44,10 +44,10 @@ public class JDBCEmployeeDao implements IEmployeeDao {
     }
 
     @Override
-    public List<Employee> getAllByForeignId(Integer otherObjId) throws CRUDException {
+    public List<Employee> getAllByEmployeeId(Integer employeeId) throws CRUDException {
         try (Connection connection = JDBConnectivity.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_EMPLOYEE_BY_DEPARTMENT_ID_QUERY)) {
-            preparedStatement.setInt(1, otherObjId);
+            preparedStatement.setInt(1, employeeId);
             return getEmployeesListFromResultSet(preparedStatement.executeQuery());
         } catch (Exception ex) {
             throw new CRUDException("get all employees by department id");

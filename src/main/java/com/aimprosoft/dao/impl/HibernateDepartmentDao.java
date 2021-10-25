@@ -29,6 +29,15 @@ public class HibernateDepartmentDao implements IDepartmentDao {
     }
 
     @Override
+    public Department getDepartmentById(Integer id) throws CRUDException {
+        try {
+            return sessionFactory.getCurrentSession().get(Department.class, id);
+        } catch (Exception ex) {
+            throw new CRUDException("get department by ID");
+        }
+    }
+
+    @Override
     public List<Department> getAll() throws CRUDException {
         try {
             return sessionFactory.getCurrentSession().createQuery("FROM Department", Department.class).list();

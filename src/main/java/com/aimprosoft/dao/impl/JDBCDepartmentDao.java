@@ -34,6 +34,11 @@ public class JDBCDepartmentDao implements IDepartmentDao {
     }
 
     @Override
+    public Department getDepartmentById(Integer id) throws CRUDException {
+        return null;
+    }
+
+    @Override
     public List<Department> getAll() throws CRUDException {
         try (Connection connection = JDBConnectivity.getConnection();
              Statement statement = connection.createStatement()) {
@@ -82,7 +87,7 @@ public class JDBCDepartmentDao implements IDepartmentDao {
     }
 
     private Department getDepartment(ResultSet resultSet) throws SQLException {
-        return new Department(resultSet.getInt("departmentId"),
-                resultSet.getString("name"));
+        return new Department().withId(resultSet.getInt("departmentId"))
+        .withName(resultSet.getString("name"));
     }
 }

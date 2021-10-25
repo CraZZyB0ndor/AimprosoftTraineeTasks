@@ -38,7 +38,7 @@ public class UpdateOrCreateDepartmentCommand implements FrontCommand {
     }
 
     private Department getDepartment(HttpServletRequest request) {
-        return new Department(RequestUtils.getInt(request.getParameter("id")),
-                request.getParameter("name"));
+        return new Department().withId(RequestUtils.getInt(request.getParameter("id")))
+                .withName(request.getParameter("name"));
     }
 }

@@ -32,7 +32,7 @@ public class EmployeeEditFormCommand implements FrontCommand {
         if (employeeId != null) {
             return employeeService.getById(employeeId);
         }
-        return new Employee().withDepartmentId(new Department()
+        return new Employee().withDepartment(new Department()
                 .withId(RequestUtils.getInt(request.getParameter("departmentId"))));
     }
 }

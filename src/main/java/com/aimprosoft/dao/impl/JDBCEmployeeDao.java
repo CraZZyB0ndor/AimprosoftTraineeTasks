@@ -35,7 +35,7 @@ public class JDBCEmployeeDao implements IEmployeeDao {
             if (obj.getId() != null) {
                 preparedStatement.setInt(5, obj.getId());
             } else {
-                preparedStatement.setInt(5, obj.getDepartmentId().getId());
+                preparedStatement.setInt(5, obj.getDepartment().getId());
             }
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -44,10 +44,10 @@ public class JDBCEmployeeDao implements IEmployeeDao {
     }
 
     @Override
-    public List<Employee> getAllByEmployeeId(Integer employeeId) throws CRUDException {
+    public List<Employee> getAllByDepartmentId(Integer departmentId) throws CRUDException {
         try (Connection connection = JDBConnectivity.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_EMPLOYEE_BY_DEPARTMENT_ID_QUERY)) {
-            preparedStatement.setInt(1, employeeId);
+            preparedStatement.setInt(1, departmentId);
             return getEmployeesListFromResultSet(preparedStatement.executeQuery());
         } catch (Exception ex) {
             throw new CRUDException("get all employees by department id");
@@ -108,7 +108,7 @@ public class JDBCEmployeeDao implements IEmployeeDao {
     private Employee getEmployee(ResultSet employeeResultSet) throws SQLException {
         return new Employee().withId(employeeResultSet.getInt("employeeId"))
                 .withEmail(employeeResultSet.getString("email"))
-                .withDepartmentId(new Department().withId(employeeResultSet.getInt("departmentId")))
+                .withDepartment(new Department().withId(employeeResultSet.getInt("departmentId")))
                 .withName(employeeResultSet.getString("name"))
                 .withAge(employeeResultSet.getInt("age"))
                 .withStartWorkingDate(employeeResultSet.getDate("startWorkingDate"));

@@ -7,6 +7,7 @@ import com.aimprosoft.validation.OvalValidator;
 import com.aimprosoft.exceptions.ValidateException;
 import com.aimprosoft.models.Department;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,11 @@ public class DepartmentService implements IDepartmentService {
     public void createOrUpdate(Department obj) throws ValidateException, CRUDException {
         validator.validate(obj);
         departmentDao.createOrUpdate(obj);
+    }
+
+    @Override
+    public Department getDepartmentById(Integer id) throws CRUDException {
+        return departmentDao.getDepartmentById(id);
     }
 
     @Override

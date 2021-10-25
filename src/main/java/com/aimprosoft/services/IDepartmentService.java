@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IDepartmentService extends IService<Department> {
 
+    Department getDepartmentById(Integer id) throws CRUDException;
     List<Department> getAll() throws CRUDException;
     boolean isExistByName(Department department) throws CRUDException;
 }

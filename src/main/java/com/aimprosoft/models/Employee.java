@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.sf.oval.constraint.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,26 +13,19 @@ import java.util.Date;
 
 @Table
 @Entity
-@NamedEntityGraph(
-        name = "employee-entity-graph",
-        attributeNodes = @NamedAttributeNode("departmentId")
-)
 @AllArgsConstructor
 @NoArgsConstructor
 @With
 @Data
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "employeeId")
     private Integer id;
     @JoinColumn(name = "departmentId")
-    @ManyToOne
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Department departmentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Department department;
     @NotNull(message = "This field is required!")
     @Length(max = 32, min = 2, message = "Incorrect name!")
     @Column(name = "name")

@@ -32,7 +32,7 @@ public class UpdateOrCreateEmployeeCommand implements FrontCommand {
             employeeService.createOrUpdate(employee);
             response.sendRedirect(URIBuilder.fromString("")
                     .addPath("displayEmployees")
-                    .addParameter("departmentId", employee.getDepartmentId().getId().toString()).toURI().toString());
+                    .addParameter("departmentId", employee.getDepartment().getId().toString()).toURI().toString());
         } catch (ValidateException e) {
             request.setAttribute("errors", e.getErrors());
             request.setAttribute("employee", employee);
@@ -44,7 +44,7 @@ public class UpdateOrCreateEmployeeCommand implements FrontCommand {
     private Employee getEmployee(HttpServletRequest request) {
         return new Employee().withId(RequestUtils.getInt(request.getParameter("id")))
                 .withEmail(request.getParameter("email"))
-                .withDepartmentId(new Department().withId(RequestUtils.getInt(request.getParameter("departmentId"))))
+                .withDepartment(new Department().withId(RequestUtils.getInt(request.getParameter("departmentId"))))
                 .withName(request.getParameter("name"))
                 .withAge(RequestUtils.getInt(request.getParameter("age")))
                 .withStartWorkingDate(RequestUtils.getDate(request.getParameter("startWorkingDate")));

@@ -21,22 +21,22 @@ public class HibernateEmployeeDao implements IEmployeeDao {
     private final SessionFactory sessionFactory;
 
     @Override
-    public void createOrUpdate(Employee obj) throws CRUDException {
+    public void createOrUpdate(Employee employee) throws CRUDException {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            obj.setDepartmentId(session.get(Department.class, obj.getDepartmentId().getId()));
-            session.saveOrUpdate(obj);
+            employee.setDepartment(session.get(Department.class, employee.getDepartment().getId()));
+            session.merge(employee);
         } catch (Exception ex) {
             throw new CRUDException("create or update employee");
         }
     }
 
     @Override
-    public List<Employee> getAllByEmployeeId(Integer employeeId) throws CRUDException {
+    public List<Employee> getAllByDepartmentId(Integer departmentId) throws CRUDException {
         try {
             return sessionFactory.getCurrentSession()
-                    .createQuery("from Employee  WHERE departmentId.id = :departmentId", Employee.class)
-                    .setParameter("departmentId", employeeId).list();
+                    .createQuery("from Employee  WHERE department.id = :departmentId", Employee.class)
+                    .setParameter("departmentId", departmentId).list();
         } catch (Exception ex) {
             throw new CRUDException("get all employees by department id");
         }

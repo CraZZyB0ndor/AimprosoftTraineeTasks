@@ -1,15 +1,14 @@
 package com.aimprosoft.models;
 
 import com.aimprosoft.validation.department.IsUniqueNameCheck;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.With;
+import lombok.*;
 import net.sf.oval.constraint.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Table
 @Entity
@@ -17,12 +16,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @With
 @Data
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Department implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "departmentId")
     private Integer id;
     @NotNull(message = "This field is required!")
@@ -33,4 +30,8 @@ public class Department implements Serializable {
     )
     @Column(name = "name")
     private String name;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "department")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<Employee> employees;
 }

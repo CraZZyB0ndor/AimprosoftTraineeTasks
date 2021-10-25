@@ -18,7 +18,9 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.SimpleServletHandlerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.util.Objects;
@@ -28,6 +30,7 @@ import java.util.Objects;
 @ComponentScan({"com.aimprosoft", "net.sf.oval.integration.spring"})
 @EnableTransactionManagement
 @PropertySource("classpath:hibernate.properties")
+@EnableWebMvc
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ApplicationContextConfig {
 
@@ -49,6 +52,14 @@ public class ApplicationContextConfig {
     @Bean
     public SimpleServletHandlerAdapter simpleServletHandlerAdapter() {
         return new SimpleServletHandlerAdapter();
+    }
+
+    @Bean
+    public InternalResourceViewResolver jspViewResolver() {
+        InternalResourceViewResolver bean = new InternalResourceViewResolver();
+        bean.setPrefix("/WEB-INF/pages/");
+        bean.setSuffix(".jsp");
+        return bean;
     }
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.aimprosoft.config.spring;
 
-import com.aimprosoft.controllers.MainController;
+import com.aimprosoft.controllers.department.DepartmentController;
+import com.aimprosoft.controllers.employee.EmployeeController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -20,10 +21,10 @@ public class SpringWebAppInitializer implements WebApplicationInitializer {
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
         AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-        dispatcherContext.register(MainController.class);
+        dispatcherContext.register(DepartmentController.class, EmployeeController.class);
 
         ServletRegistration.Dynamic dispatcher = servletContext
-                .addServlet("MainController", new DispatcherServlet(dispatcherContext));
+                .addServlet("Controller", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
     }

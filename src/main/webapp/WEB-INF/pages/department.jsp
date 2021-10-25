@@ -31,7 +31,7 @@
                             |
                             <a href="openDepartmentForm?id=${department.id}&name=<c:out value="${department.name}"/>">Edit</a>
                             |
-                            <form action="deleteDepartment">
+                            <form action="deleteDepartment" method="post">
                                 <input type="hidden" name="departmentId" value="${department.id}">
                                 <button>Delete</button>
                             </form>

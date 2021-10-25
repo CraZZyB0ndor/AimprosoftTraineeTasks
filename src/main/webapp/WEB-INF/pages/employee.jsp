@@ -36,7 +36,7 @@
                         <div>
                             <a href="openEmployeeForm?id=${employee.id}&departmentId=${departmentId}">Edit</a>
                             |
-                            <form action="deleteEmployee">
+                            <form action="deleteEmployee" method="post">
                                 <input type="hidden" name="id" value="${employee.id}">
                                 <input type="hidden" name="departmentId" value="${departmentId}">
                                 <button>Delete</button>

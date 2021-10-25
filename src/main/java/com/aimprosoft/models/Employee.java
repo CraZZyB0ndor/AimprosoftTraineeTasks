@@ -24,7 +24,7 @@ public class Employee implements Serializable {
     @Column(name = "employeeId")
     private Integer id;
     @JoinColumn(name = "departmentId")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Department department;
     @NotNull(message = "This field is required!")
     @Length(max = 32, min = 2, message = "Incorrect name!")

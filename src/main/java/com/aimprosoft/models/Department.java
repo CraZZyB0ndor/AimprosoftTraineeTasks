@@ -30,7 +30,7 @@ public class Department implements Serializable {
     )
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "department")
+    @OneToMany(mappedBy = "department")
     @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<Employee> employees;

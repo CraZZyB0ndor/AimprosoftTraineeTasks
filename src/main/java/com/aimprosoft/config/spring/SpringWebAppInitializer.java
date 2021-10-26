@@ -23,9 +23,9 @@ public class SpringWebAppInitializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
         dispatcherContext.register(DepartmentController.class, EmployeeController.class);
 
-        ServletRegistration.Dynamic dispatcher = servletContext
-                .addServlet("Controller", new DispatcherServlet(dispatcherContext));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+            ServletRegistration.Dynamic dispatcher = servletContext
+                    .addServlet("Controller", new DispatcherServlet(dispatcherContext));
+            dispatcher.setLoadOnStartup(1);
+            dispatcher.addMapping("/");
     }
 }

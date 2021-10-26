@@ -9,8 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,20 +20,20 @@ public class DepartmentController {
 
     private final IDepartmentService departmentService;
 
-    @RequestMapping(value = {"/displayDepartments", "/*"})
+    @GetMapping(value = {"/displayDepartments", "/*"})
     public String displayDepartments(Model model)
             throws CRUDException {
         model.addAttribute("departments", departmentService.getAll());
         return "department";
     }
 
-    @RequestMapping("/openDepartmentForm")
+    @GetMapping("/openDepartmentForm")
     public String openDepartmentForm(HttpServletRequest request, Model model) {
         model.addAttribute("department", getDepartment(request));
         return "forms/createOrEditDepartmentForm";
     }
 
-    @RequestMapping(value = "/createOrEditDepartment", method = RequestMethod.POST)
+    @PostMapping(value = "/createOrEditDepartment")
     public String createOrEditDepartments(HttpServletRequest request, Model model) throws CRUDException {
         final Department department = getDepartment(request);
         try {
@@ -46,7 +46,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = "/deleteDepartment", method = RequestMethod.POST)
+    @PostMapping(value = "/deleteDepartment")
     public String deleteDepartment(HttpServletRequest request) throws CRUDException {
         departmentService.deleteById(RequestUtils.getInt(request.getParameter("departmentId")));
         return "redirect:displayDepartments";

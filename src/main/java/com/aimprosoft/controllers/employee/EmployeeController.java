@@ -11,8 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +23,7 @@ public class EmployeeController {
     public final IDepartmentService departmentService;
     public final IEmployeeService employeeService;
 
-    @RequestMapping("/displayEmployees")
+    @GetMapping("/displayEmployees")
     public String displayEmployees(HttpServletRequest request, Model model) throws CRUDException {
         final Integer departmentId = RequestUtils.getInt(request.getParameter("departmentId"));
         final Department department = departmentService.getDepartmentById(departmentId);
@@ -32,13 +32,13 @@ public class EmployeeController {
         return "employee";
     }
 
-    @RequestMapping("/openEmployeeForm")
+    @GetMapping("/openEmployeeForm")
     public String openEmployeeForm(HttpServletRequest request, Model model) throws CRUDException {
         model.addAttribute("employee", getEmployeeInfoFromDb(request));
         return "forms/createOrEditEmployeeForm";
     }
 
-    @RequestMapping(value = "/createOrEditEmployee", method = RequestMethod.POST)
+    @PostMapping(value = "/createOrEditEmployee")
     public String createOrEditEmployee(HttpServletRequest request, Model model) throws CRUDException {
         final Employee employee = getEmployeeInfoFromWebPage(request);
         try {
@@ -52,7 +52,7 @@ public class EmployeeController {
         }
     }
 
-    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
+    @PostMapping(value = "/deleteEmployee")
     public String deleteEmployee(HttpServletRequest request, Model model) throws CRUDException {
         employeeService.deleteById(RequestUtils.getInt(request.getParameter("id")));
         model.addAttribute("departmentId", request.getParameter("departmentId"));
@@ -60,8 +60,10 @@ public class EmployeeController {
     }
 
     private Employee getEmployeeInfoFromDb(HttpServletRequest request) throws CRUDException {
+        final Integer departmentId = RequestUtils.getInt(request.getParameter("departmentId"));
         final Integer employeeId = RequestUtils.getInt(request.getParameter("id"));
-        return employeeService.getById(employeeId);
+        return employeeId != null ? employeeService.getById(employeeId) :
+                new Employee().withDepartment(new Department().withId(departmentId));
     }
 
     private Employee getEmployeeInfoFromWebPage(HttpServletRequest request) {

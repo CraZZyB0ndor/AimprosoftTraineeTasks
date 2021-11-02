@@ -19,13 +19,13 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleServletHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 
 
 @Configuration
@@ -34,7 +34,7 @@ import java.util.Properties;
 @PropertySource("classpath:hibernate.properties")
 @EnableWebMvc
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class ApplicationContextConfig {
+public class ApplicationContextConfig implements WebMvcConfigurer {
 
     private final Environment environment;
 
@@ -54,6 +54,12 @@ public class ApplicationContextConfig {
     @Bean
     public SimpleServletHandlerAdapter simpleServletHandlerAdapter() {
         return new SimpleServletHandlerAdapter();
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
     }
 
     @Bean

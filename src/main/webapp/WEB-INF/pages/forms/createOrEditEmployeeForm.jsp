@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Add a new employee</title>
@@ -12,7 +13,7 @@
 <form action="createOrEditEmployee" method="post" class="creation-form">
 
     <input type="hidden" name="id" value="${employee.id}">
-    <input type="hidden" name="departmentId" value="${employee.department.id}">
+    <input type="hidden" name="department.id" value="${employee.department.id}">
 
     <div class="input-name">
         <span>Enter name: </span>

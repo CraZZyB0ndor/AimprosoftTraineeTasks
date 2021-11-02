@@ -1,5 +1,7 @@
 package com.aimprosoft.utils;
 
+import com.aimprosoft.models.Employee;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +24,17 @@ public final class RequestUtils {
             try {
                 return new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime());
             } catch (ParseException | NullPointerException e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public static java.sql.Date getEmployeeWithCorrectDate(Employee employee) {
+        if (employee != null && employee.getStartWorkingDate() != null) {
+            try {
+                return new java.sql.Date(employee.getStartWorkingDate().getTime());
+            } catch (NullPointerException e) {
                 return null;
             }
         }

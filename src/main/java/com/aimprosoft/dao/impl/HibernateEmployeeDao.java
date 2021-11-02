@@ -45,8 +45,7 @@ public class HibernateEmployeeDao implements IEmployeeDao {
     @Override
     public Employee getById(Integer id) throws CRUDException {
         try {
-            Employee e = sessionFactory.getCurrentSession().get(Employee.class, id);
-            return e;
+            return sessionFactory.getCurrentSession().get(Employee.class, id);
         } catch (Exception ex) {
             throw new CRUDException("get employee by id");
         }

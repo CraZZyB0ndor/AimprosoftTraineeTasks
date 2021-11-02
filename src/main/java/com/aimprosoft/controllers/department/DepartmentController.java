@@ -4,15 +4,11 @@ import com.aimprosoft.exceptions.CRUDException;
 import com.aimprosoft.exceptions.ValidateException;
 import com.aimprosoft.models.Department;
 import com.aimprosoft.services.IDepartmentService;
-import com.aimprosoft.utils.RequestUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -28,14 +24,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/openDepartmentForm")
-    public String openDepartmentForm(HttpServletRequest request, Model model) {
-        model.addAttribute("department", getDepartment(request));
+    public String openDepartmentForm(@ModelAttribute final Department department, Model model) {
+        model.addAttribute("department", department);
         return "forms/createOrEditDepartmentForm";
     }
 
-    @PostMapping(value = "/createOrEditDepartment")
-    public String createOrEditDepartments(HttpServletRequest request, Model model) throws CRUDException {
-        final Department department = getDepartment(request);
+    @PostMapping("/createOrEditDepartment")
+    public String createOrEditDepartments(@ModelAttribute final Department department, Model model) throws CRUDException {
         try {
             departmentService.createOrUpdate(department);
             return "redirect:department";
@@ -46,14 +41,9 @@ public class DepartmentController {
         }
     }
 
-    @PostMapping(value = "/deleteDepartment")
-    public String deleteDepartment(HttpServletRequest request) throws CRUDException {
-        departmentService.deleteById(RequestUtils.getInt(request.getParameter("departmentId")));
+    @PostMapping("/deleteDepartment")
+    public String deleteDepartment(@RequestParam final Integer id) throws CRUDException {
+        departmentService.deleteById(id);
         return "redirect:displayDepartments";
-    }
-
-    private Department getDepartment(HttpServletRequest request) {
-        return new Department().withId(RequestUtils.getInt(request.getParameter("id")))
-                .withName(request.getParameter("name"));
     }
 }

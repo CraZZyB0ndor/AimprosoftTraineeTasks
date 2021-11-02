@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.sf.oval.constraint.*;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -42,6 +44,7 @@ public class Employee implements Serializable {
     @NotNull(message = "This field is required!")
     @DateRange(max = "now", message = "Incorrect date!")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "startWorkingDate")
     private Date startWorkingDate;
 }

@@ -34,7 +34,11 @@
                     <td>${employee.startWorkingDate}</td>
                     <td class="employee-control-table-elements">
                         <div>
-                            <a href="openEmployeeForm?id=${employee.id}&departmentId=${departmentId}">Edit</a>
+                            <form action="openEmployeeForm" method="post">
+                                <input type="hidden" name="id" value="${employee.id}">
+                                <input type="hidden" name="department.id" value="${departmentId}">
+                            <button type="submit">Edit</button>
+                            </form>
                             |
                             <form action="deleteEmployee" method="post">
                                 <input type="hidden" name="id" value="${employee.id}">
@@ -49,9 +53,10 @@
     </c:if>
 
     <div class="row-container">
-        <a class="create-button" type="button"
-           href="openEmployeeForm?departmentId=${departmentId}">Add
-            an employee</a>
+        <form action="openEmployeeForm" method="post">
+            <input type="hidden" name="department.id" value="${departmentId}">
+            <button class="create-button" type="submit">Add an employee</button>
+        </form>
         <a class="back-button" type="button" href="displayDepartments">Back</a>
     </div>
 </div>

@@ -1,8 +1,11 @@
 package com.aimprosoft.models;
 
 import com.aimprosoft.validation.department.IsUniqueNameCheck;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import net.sf.oval.constraint.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -33,5 +36,6 @@ public class Department implements Serializable {
     @OneToMany(mappedBy = "department")
     @Fetch(FetchMode.JOIN)
     @ToString.Exclude
+    @JsonIgnoreProperties(value = "department")
     private List<Employee> employees;
 }

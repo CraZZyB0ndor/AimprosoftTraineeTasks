@@ -7,8 +7,10 @@ import com.aimprosoft.services.IDepartmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -17,33 +19,30 @@ public class DepartmentController {
     private final IDepartmentService departmentService;
 
     @GetMapping(value = {"/displayDepartments", "/*"})
-    public String displayDepartments(Model model)
-            throws CRUDException {
-        model.addAttribute("departments", departmentService.getAll());
-        return "department";
+    @ResponseBody
+    public List<Department> displayDepartments() throws CRUDException {
+        return departmentService.getAll();
     }
 
     @GetMapping("/openDepartmentForm")
-    public String openDepartmentForm(@ModelAttribute final Department department, Model model) {
-        model.addAttribute("department", department);
-        return "forms/createOrEditDepartmentForm";
+    @ResponseBody
+    public Department openDepartmentForm(@RequestBody final Department department) {
+        return department;
     }
 
     @PostMapping("/createOrEditDepartment")
-    public String createOrEditDepartments(@ModelAttribute final Department department, Model model) throws CRUDException {
+    @ResponseBody
+    public Map<String, List<String>> createOrEditDepartments(@RequestBody final Department department) throws CRUDException {
         try {
             departmentService.createOrUpdate(department);
-            return "redirect:department";
+            return null;
         } catch (ValidateException e) {
-            model.addAttribute("errors", e.getErrors());
-            model.addAttribute("department", department);
-            return "forms/createOrEditDepartmentForm";
+            return e.getErrors();
         }
     }
 
     @PostMapping("/deleteDepartment")
-    public String deleteDepartment(@RequestParam final Integer id) throws CRUDException {
+    public void deleteDepartment(@RequestBody final Integer id) throws CRUDException {
         departmentService.deleteById(id);
-        return "redirect:displayDepartments";
     }
 }

@@ -19,14 +19,10 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.handler.SimpleServletHandlerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.util.*;
-
 
 @Configuration
 @ComponentScan({"com.aimprosoft", "net.sf.oval.integration.spring"})
@@ -45,29 +41,6 @@ public class ApplicationContextConfig implements WebMvcConfigurer {
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setPackagesToScan("com.aimprosoft.models");
         return sessionFactory;
-    }
-
-    /*
-        Important method for forwarding the Request from the Dispatcher Servlet to a Servlet
-        then invoke the Servlet.service() method.
-    */
-    @Bean
-    public SimpleServletHandlerAdapter simpleServletHandlerAdapter() {
-        return new SimpleServletHandlerAdapter();
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
-    }
-
-    @Bean
-    public InternalResourceViewResolver jspViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setPrefix("/WEB-INF/pages/");
-        bean.setSuffix(".jsp");
-        return bean;
     }
 
     @Autowired

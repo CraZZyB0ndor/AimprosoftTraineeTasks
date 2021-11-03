@@ -1,12 +1,15 @@
 package com.aimprosoft.models;
 
 import com.aimprosoft.validation.employee.IsUniqueEmailCheck;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import net.sf.oval.constraint.*;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -26,7 +29,9 @@ public class Employee implements Serializable {
     @Column(name = "employeeId")
     private Integer id;
     @JoinColumn(name = "departmentId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    @JsonIgnoreProperties("employee")
     private Department department;
     @NotNull(message = "This field is required!")
     @Length(max = 32, min = 2, message = "Incorrect name!")

@@ -20,18 +20,14 @@ public class SpringWebAppInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationContextConfig.class);
-
         servletContext.addListener(new ContextLoaderListener(rootContext));
         AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
         dispatcherContext.register(DepartmentController.class, EmployeeController.class);
-
-            ServletRegistration.Dynamic dispatcher = servletContext
-                    .addServlet("Controller", new DispatcherServlet(dispatcherContext));
-            dispatcher.setLoadOnStartup(1);
-            dispatcher.addMapping("/");
-
+        ServletRegistration.Dynamic dispatcher = servletContext
+                .addServlet("Controller", new DispatcherServlet(dispatcherContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
         FilterRegistration.Dynamic fr = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
-
         fr.setInitParameter("encoding", "UTF-8");
         fr.setInitParameter("forceEncoding", "true");
         fr.addMappingForUrlPatterns(null, true, "/*");

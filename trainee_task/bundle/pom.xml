@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.aimprosoft.api</groupId>
@@ -33,7 +32,6 @@
                 <version>3.3.2</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>
 
     <build>
         <finalName>aimposoft</finalName>

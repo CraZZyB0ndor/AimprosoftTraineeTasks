@@ -6,6 +6,7 @@ import com.aimprosoft.models.Department;
 import com.aimprosoft.services.IDepartmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,11 @@ public class DepartmentController {
     @GetMapping(value = {"/department", "/*"})
     public List<Department> displayDepartments() throws CRUDException {
         return departmentService.getAll();
+    }
+
+    @GetMapping("/department/id")
+    public Department getDepartmentById(@RequestParam Integer id) throws CRUDException {
+        return departmentService.getDepartmentById(id);
     }
 
     @PostMapping("/department")

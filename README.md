@@ -1,2 +1,0 @@
-# AimprosoftTraineeTasks
-Aimprosoft trainee tasks

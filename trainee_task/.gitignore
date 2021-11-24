@@ -30,3 +30,4 @@ target/
 resources/
 ../resources/
 .idea
+web/node_modules

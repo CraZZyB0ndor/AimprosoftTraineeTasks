@@ -28,19 +28,20 @@ td {
 }
 
 table {
+
     text-align: center;
     width: 70%;
     font-size: 20px;
 }
 
-table>caption {
+table > caption {
 
     margin-bottom: 30px;
     font-size: 40px;
     font-weight: bold;
 }
 
-table>tr {
+table > tr {
     height: 25px;
 }
 
@@ -55,20 +56,38 @@ table>tr {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    color: white;
+    font-size: 14px;
 }
 
-.action-td>button {
+.action-td > a {
+    color: white;
+}
+
+.action-td > button,
+.action-td > a {
     padding: 7px;
     cursor: pointer;
-
+    text-decoration: none;
     color: white;
     background-color: dodgerblue;
     outline: none;
     border: none;
 }
 
-.action-td>button:hover {
+.action-td > button:hover,
+.action-td > a:hover {
     opacity: 0.7;
+}
+
+.item-name {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.item-name:hover {
+    text-decoration: underline;
 }
 
 .action-div {
@@ -76,13 +95,14 @@ table>tr {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    padding-bottom: 25px;
 }
 
-.action-div>button {
+.action-div > a {
 
     padding: 7px;
     cursor: pointer;
-
+    text-decoration: none;
     font-size: 20px;
     margin-top: 30px;
     color: white;
@@ -91,12 +111,13 @@ table>tr {
     border: none;
 }
 
-.action-div>button:last-child {
+.action-div > a:last-child {
+
     margin-left: 25px;
     background-color: #303030;
 }
 
-.action-div>button:hover {
+.action-div > a:hover {
     opacity: 0.7;
 }
 

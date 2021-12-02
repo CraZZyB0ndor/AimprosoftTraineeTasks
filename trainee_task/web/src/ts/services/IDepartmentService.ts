@@ -5,6 +5,6 @@ import jqXHR = JQuery.jqXHR;
 export interface IDepartmentService extends IService {
 
     getAll(): jqXHR;
-
-    createDepartment(department: IDepartment);
+    getByName(name: string): jqXHR;
+    createDepartment(department: IDepartment): jqXHR;
 }

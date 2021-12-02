@@ -9,6 +9,8 @@ export class DisplayDepartments implements IContainer {
     private departmentList = new DepartmentList();
 
     getContent(param) {
-        this.departmentService.getAll().done((departments) => this.departmentList.render(departments));
+        this.departmentService.getAll().then(departments => this.departmentList.render(departments),
+            error => location.hash = "#departments"
+            );
     }
 }

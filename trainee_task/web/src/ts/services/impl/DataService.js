@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var Dao = /** @class */ (function () {
+var DataService = /** @class */ (function () {
     function DAO() {
     }
     DAO.get = function (query, id) {
@@ -28,5 +28,5 @@ var Dao = /** @class */ (function () {
     };
     return DAO;
 }());
-exports["default"] = Dao;
+exports["default"] = DataService;
 //# sourceMappingURL=DAO.js.map

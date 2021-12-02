@@ -1,19 +1,30 @@
-import {IValidation} from "../IValidation";
+import {IValidator} from "../IValidator";
 import {IDepartment} from "../../models/IDepartment";
-import {Validators} from "../Validators";
+import {RequestUtils} from "../../utils/RequestUtils";
 
-export class DepartmentValidation implements IValidation<IDepartment> {
+export class DepartmentValidation implements IValidator {
 
-    validate(department: IDepartment): boolean {
-
-        const errors = $('#error-div');
-        errors.html('');
-
-        if (!Validators.nameValidation(department.name)) {
-            errors.append($('<span/>', {text: 'Name is invalid!'}))
-            return false;
-        }
-
-        return true;
+    validate(formId: string): any {
+        return $(formId).validate({
+            rules: {
+                departmentName: {
+                    nameValidation: true,
+                    remote: {
+                        url: `/departments/exist`,
+                        type: "GET",
+                        contentType: 'application/json',
+                        dataType: 'json',
+                    }
+                },
+            },
+            messages: {
+                departmentName: {
+                    remote: $.validator.format("Name: {0} is exist!"),
+                    nameValidation: "Name is not correct!"
+                }
+            },
+            focusInvalid: true,
+            errorClass: "input_error"
+        });
     }
 }

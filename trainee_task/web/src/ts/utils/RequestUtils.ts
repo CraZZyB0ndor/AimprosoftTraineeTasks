@@ -7,4 +7,8 @@ export class RequestUtils {
     public static getString(value): string {
         return String(value);
     }
+
+    public static getDate(value): Date {
+        return new Date(value);
+    }
 }

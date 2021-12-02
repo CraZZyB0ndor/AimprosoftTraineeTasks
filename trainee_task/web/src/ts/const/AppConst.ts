@@ -1,3 +1,3 @@
 export class AppConst {
-    public static ID = $('#app');
+    public static ID: string = "#app";
 }

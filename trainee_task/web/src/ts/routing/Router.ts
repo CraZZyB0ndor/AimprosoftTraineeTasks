@@ -1,8 +1,9 @@
-import "../components/impl/department-list/DepartmentList.css";
+import "../components/impl/style/list-style.css";
 import {IContainer} from "../containers/IContainer";
 import {DisplayDepartments} from "../containers/impl/department/DisplayDepartments";
 import {DisplayEmployee} from "../containers/impl/employee/DisplayEmployee";
 import {CreateUpdateDepartment} from "../containers/impl/department/CreateUpdateDepartment";
+import {CreateUpdateEmployee} from "../containers/impl/employee/CreateUpdateEmployee";
 
 export class Router {
 
@@ -10,17 +11,16 @@ export class Router {
 
     constructor() {
         this.routers = new Map();
-        this.routers.set("#department", new DisplayDepartments());
-        this.routers.set("#employee", new DisplayEmployee());
-        this.routers.set("#department-form", new CreateUpdateDepartment());
+        this.routers.set("#departments", new DisplayDepartments());
+        this.routers.set("#employees", new DisplayEmployee());
+        this.routers.set("#department", new CreateUpdateDepartment());
+        this.routers.set("#employee", new CreateUpdateEmployee());
     }
 
     public getRoute(hash: string): IContainer {
         if (this.routers.has(hash)) {
-            location.hash = hash;
             return this.routers.get(hash);
         }
-        location.hash = "#department";
         return new DisplayDepartments();
     }
 }

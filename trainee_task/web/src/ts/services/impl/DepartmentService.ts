@@ -1,23 +1,27 @@
 import jqXHR = JQuery.jqXHR;
-import {Dao} from "../../dao/Dao";
+import {DataService} from "./DataService";
 import {IDepartment} from "../../models/IDepartment";
 import {IDepartmentService} from "../IDepartmentService";
 
 export class DepartmentService implements IDepartmentService {
 
     getAll(): jqXHR {
-        return Dao.get('/department');
+        return DataService.get('/departments');
     }
 
-    getById(id: number): JQuery.jqXHR {
-        return Dao.get('/department/id', {'id': id});
+    getById(id: number): jqXHR {
+        return DataService.get(`/departments/id/${id}`);
     }
 
-    createDepartment(department: IDepartment) {
-        return Dao.create('/department', department);
+    getByName(name: string): jqXHR {
+        return DataService.get(`/departments/name/${name}`);
     }
 
-    deleteById(id: number) {
-        Dao.delete('/department', {'id': id})
+    createDepartment(department: IDepartment): jqXHR {
+        return DataService.create('/departments', department);
+    }
+
+    deleteById(id: number): jqXHR {
+        return DataService.delete('/departments', {'id': id})
     }
 }

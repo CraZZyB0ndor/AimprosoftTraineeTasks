@@ -22,7 +22,12 @@ public class IsUniqueEmailCheck implements CheckWithCheck.SimpleCheck {
     @Override
     public boolean isSatisfied(Object validatedObject, Object value, OValContext context, Validator validator) {
         try {
-            return !employeeService.isExistByEmail((Employee) validatedObject);
+            final Employee employee = (Employee) validatedObject;
+            final Employee employeeDb = employeeService.getEmployeeByName(employee.getName());
+            if (employee.getId() != null && employeeDb != null) {
+                return employeeDb.getId().equals(employee.getId());
+            }
+            return employeeDb == null;
         } catch (CRUDException e) {
             return false;
         }

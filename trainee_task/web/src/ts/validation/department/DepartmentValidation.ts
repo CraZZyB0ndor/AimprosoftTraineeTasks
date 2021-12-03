@@ -1,6 +1,5 @@
 import {IValidator} from "../IValidator";
 import {IDepartment} from "../../models/IDepartment";
-import {RequestUtils} from "../../utils/RequestUtils";
 
 export class DepartmentValidation implements IValidator {
 
@@ -14,6 +13,13 @@ export class DepartmentValidation implements IValidator {
                         type: "GET",
                         contentType: 'application/json',
                         dataType: 'json',
+                        dataFilter: (data) => {
+                            if (!!data) {
+                                const department: IDepartment = JSON.parse(data);
+                                return department.id == $('#id').val();
+                            }
+                            return true;
+                        }
                     }
                 },
             },

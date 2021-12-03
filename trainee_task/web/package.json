@@ -16,22 +16,36 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jquery": "^3.5.8",
+    "@types/jquery.validation": "^1.16.7",
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb": "^19.0.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-webpack-plugin": "^3.1.1",
     "html-webpack-plugin": "^5.5.0",
+    "import-loader": "^1.0.1",
+    "jquery-validation": "^1.19.3",
     "ts-loader": "^9.2.6",
     "webpack": "^5.62.2",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
+    "@types/jquery.validation": "^1.16.7",
     "body-parser": "^1.19.0",
     "buffer": "^6.0.3",
     "css-loader": "^6.5.1",
     "express": "^4.17.1",
     "express-favicon": "^2.0.1",
     "jquery": "^3.6.0",
+    "jquery-validation": "^1.19.3",
+    "lodash": "^4.17.21",
     "script-loader": "^0.7.2",
     "style-loader": "^3.3.1",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "webpack-jquery-ui": "^2.0.1"
   }
 }

@@ -12,6 +12,7 @@ export class EmployeeForm implements IComponent {
     private employeeService = new EmployeeService();
 
     render(params) {
+        console.log(params);
         const employee: IEmployee = params.employee != null ? params.employee : {};
         $(AppConst.ID).append($('<p/>', {text: 'Create a new employee'}));
         const form = $('<form/>',
@@ -19,7 +20,7 @@ export class EmployeeForm implements IComponent {
         const inputNameDiv = $('<div/>').append(
             $('<span/>', {text: 'Employee name:'}),
             $('<input/>',
-                {type: 'hidden', value: employee.id, name: 'id'}),
+                {type: 'hidden', value: employee.id, name: 'id', id: 'id'}),
             $('<input/>',
                 {type: 'hidden', value: params.departmentId, name: 'departmentId'}),
             $('<input/>',
@@ -64,7 +65,7 @@ export class EmployeeForm implements IComponent {
             $('<a/>', {
                 text: 'Back',
                 id: 'back-button',
-                href: `#employees/${params.departmentId}`,
+                href: `#departments/${params.departmentId}/employees`,
             }));
         form.append(inputNameDiv, inputEmailDiv, inputAgeDiv, inputDateDiv, actionDiv);
         $(AppConst.ID).append(form);
@@ -82,7 +83,7 @@ export class EmployeeForm implements IComponent {
                         startWorkingDate: RequestUtils.getDate($("input[name=employee-date]").val())
                     };
                     this.employeeService.createEmployee(employee).done(() => {
-                        location.hash = `#employees/${params.departmentId}`;
+                        location.hash = `#departments/${params.departmentId}employees`;
                     });
                 }
             }

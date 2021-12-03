@@ -21,11 +21,11 @@ public class HibernateEmployeeDao implements IEmployeeDao {
     private final SessionFactory sessionFactory;
 
     @Override
-    public void createOrUpdate(Employee employee) throws CRUDException {
+    public Employee createOrUpdate(Employee employee) throws CRUDException {
         try {
             final Session session = sessionFactory.getCurrentSession();
             employee.setDepartment(session.get(Department.class, employee.getDepartment().getId()));
-            session.merge(employee);
+            return (Employee) session.merge(employee);
         } catch (Exception ex) {
             throw new CRUDException("create or update employee");
         }
@@ -35,7 +35,7 @@ public class HibernateEmployeeDao implements IEmployeeDao {
     public List<Employee> getAllByDepartmentId(Integer departmentId) throws CRUDException {
         try {
             return sessionFactory.getCurrentSession()
-                    .createQuery("from Employee  WHERE department.id = :departmentId", Employee.class)
+                    .createQuery("FROM Employee  WHERE department.id = :departmentId", Employee.class)
                     .setParameter("departmentId", departmentId).list();
         } catch (Exception ex) {
             throw new CRUDException("get all employees by department id");
@@ -52,6 +52,18 @@ public class HibernateEmployeeDao implements IEmployeeDao {
     }
 
     @Override
+    public Employee getByEmail(String email) throws CRUDException {
+        try {
+            return sessionFactory.getCurrentSession()
+                    .createQuery("FROM Employee WHERE email = :email", Employee.class)
+                    .setParameter("email", email)
+                    .uniqueResult();
+        } catch (Exception ex) {
+            throw new CRUDException("get employee by email");
+        }
+    }
+
+    @Override
     public void deleteById(Integer id) throws CRUDException {
         try {
             Session session = sessionFactory.getCurrentSession();
@@ -62,16 +74,12 @@ public class HibernateEmployeeDao implements IEmployeeDao {
     }
 
     @Override
-    public boolean isExistByEmail(Employee employee) throws CRUDException {
+    public Employee getEmployeeByName(String employeeName) throws CRUDException {
         try {
-            final Employee employeeFromDb = sessionFactory.getCurrentSession()
+            return sessionFactory.getCurrentSession()
                     .createQuery("FROM Employee WHERE email = :email", Employee.class)
                     .setCacheable(true)
-                    .setParameter("email", employee.getEmail()).uniqueResult();
-            if (employee.getId() != null && employeeFromDb != null) {
-                return !employeeFromDb.getId().equals(employee.getId());
-            }
-            return employeeFromDb != null;
+                    .setParameter("email", employeeName).uniqueResult();
         } catch (Exception ex) {
             throw new CRUDException("is exist employee by id");
         }

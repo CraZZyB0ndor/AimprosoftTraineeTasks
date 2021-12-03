@@ -5,6 +5,5 @@ import com.aimprosoft.exceptions.ValidateException;
 
 public interface IService<T> {
 
-    void createOrUpdate(T obj) throws ValidateException, CRUDException;
     void deleteById(Integer id) throws CRUDException;
 }

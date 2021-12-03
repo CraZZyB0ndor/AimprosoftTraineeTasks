@@ -22,7 +22,12 @@ public class IsUniqueNameCheck implements CheckWithCheck.SimpleCheck {
     @Override
     public boolean isSatisfied(Object validatedObject, Object value, OValContext context, Validator validator) {
         try {
-            return !departmentService.isExistByName((Department) validatedObject);
+            final Department department = (Department) validatedObject;
+            final Department departmentDb = departmentService.getDepartmentByName(department.getName());
+            if (department.getId() != null && departmentDb != null) {
+                return departmentDb.getId().equals(department.getId());
+            }
+            return departmentDb == null;
         } catch (CRUDException e) {
             return false;
         }

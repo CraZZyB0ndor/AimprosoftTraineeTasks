@@ -20,16 +20,16 @@ public class HibernateDepartmentDao implements IDepartmentDao {
     private final SessionFactory sessionFactory;
 
     @Override
-    public void createOrUpdate(Department department) throws CRUDException {
+    public Department createOrUpdate(Department department) throws CRUDException {
         try {
-            sessionFactory.getCurrentSession().saveOrUpdate(department);
+            return (Department) sessionFactory.getCurrentSession().merge(department); //saveOrUpdate(department);
         } catch (Exception ex) {
             throw new CRUDException("create or update department");
         }
     }
 
     @Override
-    public Department getDepartmentById(Integer id) throws CRUDException {
+    public Department getById(Integer id) throws CRUDException {
         try {
             return sessionFactory.getCurrentSession().get(Department.class, id);
         } catch (Exception ex) {
@@ -57,18 +57,14 @@ public class HibernateDepartmentDao implements IDepartmentDao {
     }
 
     @Override
-    public boolean isExistByName(Department department) throws CRUDException {
+    public Department getDepartmentByName(String departmentName) throws CRUDException {
         try {
-            final Department departmentFromDb = sessionFactory.getCurrentSession()
+            return sessionFactory.getCurrentSession()
                     .createQuery("FROM Department WHERE name = :name", Department.class)
                     .setCacheable(true)
-                    .setParameter("name", department.getName()).uniqueResult();
-            if (department.getId() != null && departmentFromDb != null) {
-                return !departmentFromDb.getId().equals(department.getId());
-            }
-            return departmentFromDb != null;
+                    .setParameter("name", departmentName).uniqueResult();
         } catch (Exception ex) {
-            throw new CRUDException("is exist department by name");
+            throw new CRUDException("get department by name");
         }
     }
 }

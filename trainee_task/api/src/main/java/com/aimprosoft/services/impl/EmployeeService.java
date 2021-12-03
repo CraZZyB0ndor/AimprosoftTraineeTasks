@@ -20,9 +20,9 @@ public class EmployeeService implements IEmployeeService {
     private final OvalValidator<Employee> validator;
 
     @Override
-    public void createOrUpdate(Employee obj) throws ValidateException, CRUDException {
-        validator.validate(obj);
-        employeeDao.createOrUpdate(obj);
+    public Employee createOrUpdate(Employee employee) throws ValidateException, CRUDException {
+        validator.validate(employee);
+        return employeeDao.createOrUpdate(employee);
     }
 
     @Override
@@ -36,12 +36,17 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public void deleteById(Integer id) throws CRUDException {
-        employeeDao.deleteById(id);
+    public Employee getByEmail(String email) throws CRUDException {
+        return employeeDao.getByEmail(email);
     }
 
     @Override
-    public boolean isExistByEmail(Employee employee) throws CRUDException {
-        return employeeDao.isExistByEmail(employee);
+    public Employee getEmployeeByName(String employeeName) throws CRUDException {
+        return employeeDao.getEmployeeByName(employeeName);
+    }
+
+    @Override
+    public void deleteById(Integer id) throws CRUDException {
+        employeeDao.deleteById(id);
     }
 }

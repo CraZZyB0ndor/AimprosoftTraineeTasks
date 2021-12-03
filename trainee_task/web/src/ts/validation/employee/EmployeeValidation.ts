@@ -1,4 +1,5 @@
 import {IValidator} from "../IValidator";
+import {IEmployee} from "../../models/IEmployee";
 
 export class EmployeeValidation implements IValidator {
 
@@ -16,6 +17,13 @@ export class EmployeeValidation implements IValidator {
                         type: "GET",
                         contentType: 'application/json',
                         dataType: 'json',
+                        dataFilter: (data) => {
+                            if (!!data) {
+                                const employee: IEmployee = JSON.parse(data);
+                                return employee.id == $('#id').val();
+                            }
+                            return true;
+                        },
                     }
                 },
                 'employee-age': {

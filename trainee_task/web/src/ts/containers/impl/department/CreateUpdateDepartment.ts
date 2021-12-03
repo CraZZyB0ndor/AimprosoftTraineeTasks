@@ -8,7 +8,7 @@ export class CreateUpdateDepartment implements IContainer {
     private departmentForm = new DepartmentForm();
 
     getContent(param) {
-        if (param != null) {
+        if (param != '') {
             this.departmentService.getById(param[0]).then(department => this.departmentForm.render(department),
                 error => location.hash = "#departments");
             return;

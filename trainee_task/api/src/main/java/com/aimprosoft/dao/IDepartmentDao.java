@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface IDepartmentDao extends IObjectDao<Department> {
 
-    Department getDepartmentById(Integer id) throws CRUDException;
+
+    Department createOrUpdate(Department department) throws CRUDException;
+    Department getById(Integer id) throws CRUDException;
+    Department getDepartmentByName(String departmentName) throws CRUDException;
     List<Department> getAll() throws CRUDException;
-    boolean isExistByName(Department department) throws CRUDException;
 }

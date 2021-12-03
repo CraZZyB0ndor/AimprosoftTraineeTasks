@@ -2,7 +2,7 @@ import {IComponent} from "../../IComponent";
 import {AppConst} from "../../../const/AppConst";
 import "../style/list-style.css"
 import {DepartmentService} from "../../../services/impl/DepartmentService";
-import {Routers} from "../../../routing/Routers";
+import {Router} from "../../../routing/Router";
 
 export class DepartmentList implements IComponent {
 
@@ -13,7 +13,7 @@ export class DepartmentList implements IComponent {
         actionDiv.append($('<a/>',
             {
                 text: 'Create a new department',
-                href: '#department'
+                href: '#departments/'
             }));
         if (params === null || params.length === 0) {
             $(AppConst.ID).append($('<p/>', {text: 'There is no department!'})
@@ -40,16 +40,16 @@ export class DepartmentList implements IComponent {
             tr.append($('<td/>').append($('<a/>',
                 {
                     text: department.name,
-                    href: `#employees/${department.id}`
+                    href: `#departments/${department.id}/employees`
                 })
                 .addClass('item-name')));
             tr.append(
                 $('<td/>').addClass('action-td')
-                    .append($('<a/>', {text: 'EDIT', href: `#department/${department.id}`}))
+                    .append($('<a/>', {text: 'EDIT', href: `#departments/${department.id}`}))
                     .append($('<button/>', {text: 'DELETE'})
                         .on('click', () => {
                             this.departmentService.deleteById(department.id).done(() => {
-                                Routers.searchHash('#departments')
+                                Router.getRoute('#departments')
                             });
                         })));
             trs.push(tr);

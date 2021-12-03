@@ -22,25 +22,30 @@ public class EmployeeController {
     public final IDepartmentService departmentService;
     public final IEmployeeService employeeService;
 
-    @GetMapping("/employee")
-    public Department displayEmployees(@RequestParam final Integer departmentId) throws CRUDException {
-        return departmentService.getDepartmentById(departmentId);
+    @GetMapping("/api/employees/{departmentId}")
+    public Department displayEmployees(@PathVariable final Integer departmentId) throws CRUDException {
+        return departmentService.getById(departmentId);
     }
 
-    @PostMapping("/employee")
-    public ResponseEntity<Map<String, List<String>>> createOrEditEmployee(@RequestBody final Employee employee)
-            throws CRUDException {
-        try {
-            employeeService.createOrUpdate(employee);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (ValidateException validateException) {
-            return new ResponseEntity<>(validateException.getErrors(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @GetMapping("/api/employees/id/{id}")
+    public Employee getEmployeeById(@PathVariable final Integer id) throws CRUDException {
+        return employeeService.getById(id);
     }
 
-    @DeleteMapping(value = "/employee")
-    public void deleteEmployee(@RequestParam(name = "id") final Integer id) throws CRUDException {
-        employeeService.deleteById(id);
+    @GetMapping("/api/employees/exist")
+    public Employee getEmployeeById(@RequestParam final String email) throws CRUDException {
+        return employeeService.getByEmail(email);
+    }
+
+    @PostMapping("/api/employees")
+    public Employee createOrEditEmployee(@RequestBody final Employee employee)
+            throws CRUDException, ValidateException {
+        return employeeService.createOrUpdate(employee);
+    }
+
+    @DeleteMapping("/api/employees")
+    public void deleteEmployee(@RequestBody final Employee employee) throws CRUDException {
+        employeeService.deleteById(employee.getId());
     }
 
 }

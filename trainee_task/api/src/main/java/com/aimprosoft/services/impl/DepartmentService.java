@@ -7,7 +7,6 @@ import com.aimprosoft.validation.OvalValidator;
 import com.aimprosoft.exceptions.ValidateException;
 import com.aimprosoft.models.Department;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +20,18 @@ public class DepartmentService implements IDepartmentService {
     private final OvalValidator<Department> validator;
 
     @Override
-    public void createOrUpdate(Department obj) throws ValidateException, CRUDException {
-        validator.validate(obj);
-        departmentDao.createOrUpdate(obj);
+    public Department createOrUpdate(Department department) throws CRUDException {
+        try {
+            validator.validate(department);
+            return departmentDao.createOrUpdate(department);
+        } catch (ValidateException ex) {
+            return null;
+        }
     }
 
     @Override
-    public Department getDepartmentById(Integer id) throws CRUDException {
-        return departmentDao.getDepartmentById(id);
+    public Department getById(Integer id) throws CRUDException {
+        return departmentDao.getById(id);
     }
 
     @Override
@@ -37,12 +40,12 @@ public class DepartmentService implements IDepartmentService {
     }
 
     @Override
-    public void deleteById(Integer id) throws CRUDException {
-        departmentDao.deleteById(id);
+    public Department getDepartmentByName(String departmentName) throws CRUDException {
+        return departmentDao.getDepartmentByName(departmentName);
     }
 
     @Override
-    public boolean isExistByName(Department department) throws CRUDException {
-        return departmentDao.isExistByName(department);
+    public void deleteById(Integer id) throws CRUDException {
+        departmentDao.deleteById(id);
     }
 }

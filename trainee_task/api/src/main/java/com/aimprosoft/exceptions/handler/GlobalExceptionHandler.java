@@ -1,6 +1,7 @@
 package com.aimprosoft.exceptions.handler;
 
 import com.aimprosoft.exceptions.CRUDException;
+import com.aimprosoft.exceptions.ValidateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,5 +18,12 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<String> defaultErrorHandler(CRUDException crudException) {
         return new ResponseEntity<>(crudException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    //TODO()
+    @ExceptionHandler(value = ValidateException.class)
+    @ResponseBody
+    public ResponseEntity<String> validationErrorHandler(ValidateException validateException) {
+        return new ResponseEntity<>(validateException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

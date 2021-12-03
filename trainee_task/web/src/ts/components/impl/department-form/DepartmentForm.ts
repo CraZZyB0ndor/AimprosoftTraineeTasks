@@ -4,10 +4,7 @@ import "../style/form-style.css";
 import {IDepartment} from "../../../models/IDepartment";
 import {RequestUtils} from "../../../utils/RequestUtils";
 import {DepartmentService} from "../../../services/impl/DepartmentService";
-import "jquery-validation/dist/jquery.validate.min";
-//require('jquery-validation');
 import {DepartmentValidation} from "../../../validation/department/DepartmentValidation";
-import {Routers} from "../../../routing/Routers";
 
 export class DepartmentForm implements IComponent {
 

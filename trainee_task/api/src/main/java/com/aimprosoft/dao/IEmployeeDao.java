@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface IEmployeeDao extends IObjectDao<Employee> {
 
+    Employee createOrUpdate(Employee employee) throws CRUDException;
     List<Employee> getAllByDepartmentId(Integer departmentId) throws CRUDException;
     Employee getById(Integer id) throws CRUDException;
-    boolean isExistByEmail(Employee employee) throws CRUDException;
+    Employee getByEmail(String email) throws CRUDException;
+    Employee getEmployeeByName(String employeeName) throws CRUDException;
 }

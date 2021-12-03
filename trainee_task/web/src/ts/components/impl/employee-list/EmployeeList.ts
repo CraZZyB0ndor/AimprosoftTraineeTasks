@@ -3,7 +3,7 @@ import {AppConst} from "../../../const/AppConst";
 import "../style/list-style.css"
 import {EmployeeService} from "../../../services/impl/EmployeeService";
 import {IDepartment} from "../../../models/IDepartment";
-import {Routers} from "../../../routing/Routers";
+import {Router} from "../../../routing/Router";
 
 export class EmployeeList implements IComponent {
 
@@ -14,7 +14,7 @@ export class EmployeeList implements IComponent {
         const actionDiv = $('<div/>').addClass('action-div');
         actionDiv.append($('<a/>', {
             text: 'Create a new employee',
-            href: '#employee/' + department.id
+            href: `#departments/${department.id}/employees/`
         }));
         actionDiv.append($('<a/>', {
             text: 'Back',
@@ -55,12 +55,12 @@ export class EmployeeList implements IComponent {
                 $('<td/>').addClass('action-td')
                     .append($('<a/>', {
                         text: 'EDIT',
-                        href: `#employee/${employee.id}/department/${department.id}`
+                        href: `#departments/${department.id}/employees/${employee.id}`
                     }))
                     .append($('<button/>', {text: 'DELETE'})
                         .on('click', () => {
                             this.employeeService.deleteById(employee.id).done(() => {
-                                    Routers.searchHash(`#employees/${department.id}`);
+                                Router.getRoute(`#departments/${department.id}/employees`);
                                 }
                             )
                         })));

@@ -16,7 +16,7 @@ public class DepartmentController {
 
     private final IDepartmentService departmentService;
 
-    @GetMapping(value = {"/api/departments", "/*"})
+    @GetMapping(value = {"/api/departments"})
     public List<Department> displayDepartments() throws CRUDException {
         return departmentService.getAll();
     }

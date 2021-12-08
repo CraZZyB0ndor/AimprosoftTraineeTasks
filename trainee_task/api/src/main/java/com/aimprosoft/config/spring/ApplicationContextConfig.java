@@ -2,6 +2,7 @@ package com.aimprosoft.config.spring;
 
 import com.aimprosoft.validation.OvalValidator;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
 import net.sf.oval.integration.spring.SpringCheckInitializationListener;
@@ -18,12 +19,12 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
 @Configuration
@@ -35,6 +36,7 @@ import java.util.*;
 public class ApplicationContextConfig implements WebMvcConfigurer {
 
     private final Environment environment;
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/target/webpack/dist/"};
 
     @Autowired
     @Bean
@@ -45,20 +47,26 @@ public class ApplicationContextConfig implements WebMvcConfigurer {
         return sessionFactory;
     }
 
-    //TODO()
+    @SneakyThrows
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("/static/");
+            registry.addResourceHandler("/**").addResourceLocations(
+                    CLASSPATH_RESOURCE_LOCATIONS);
+        /*
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/target/webpack/dist");
+         */
     }
-
+/*
     @Bean
     public InternalResourceViewResolver jspViewResolver() {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setPrefix("/WEB-INF/pages/");
+        bean.setPrefix("classpath:/target/webpack/dist");
         bean.setSuffix(".html");
         return bean;
     }
+
+ */
 
     @Autowired
     @Bean

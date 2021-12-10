@@ -1,6 +1,6 @@
 import {IComponent} from "../../IComponent";
 import {AppConst} from "../../../const/AppConst";
-import "../style/form-style.css";
+import "../styles/form-style.css";
 import {IEmployee} from "../../../models/IEmployee";
 import {RequestUtils} from "../../../utils/RequestUtils";
 import {EmployeeValidation} from "../../../validation/employee/EmployeeValidation";
@@ -12,13 +12,14 @@ export class EmployeeForm implements IComponent {
     private employeeService = new EmployeeService();
 
     render(params) {
-        console.log(params);
         const employee: IEmployee = params.employee != null ? params.employee : {};
-        $(AppConst.ID).append($('<p/>', {text: 'Create a new employee'}));
+        const headerName = employee?.id == null ? 'Create a new employee' : 'Edit employee';
+        const buttonName = employee?.id == null ? 'Create' : 'Edit';
+        $(AppConst.ID).append($('<p/>', {text: headerName}));
         const form = $('<form/>',
             {id: 'create-employee-form-id', method: 'POST'})
         const inputNameDiv = $('<div/>').append(
-            $('<span/>', {text: 'Employee name:'}),
+            $('<span/>', {text: 'Name:'}),
             $('<input/>',
                 {type: 'hidden', value: employee.id, name: 'id', id: 'id'}),
             $('<input/>',
@@ -61,7 +62,7 @@ export class EmployeeForm implements IComponent {
                 id: 'employee-date'
             }));
         const actionDiv = $('<div/>').append(
-            $('<button/>', {text: 'Create', type: 'submit'}),
+            $('<button/>', {text: buttonName, type: 'submit'}),
             $('<a/>', {
                 text: 'Back',
                 id: 'back-button',

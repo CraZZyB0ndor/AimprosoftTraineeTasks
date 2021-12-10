@@ -1,6 +1,6 @@
 import {IComponent} from "../../IComponent";
 import {AppConst} from "../../../const/AppConst";
-import "../style/form-style.css";
+import "../styles/form-style.css";
 import {IDepartment} from "../../../models/IDepartment";
 import {RequestUtils} from "../../../utils/RequestUtils";
 import {DepartmentService} from "../../../services/impl/DepartmentService";
@@ -13,11 +13,13 @@ export class DepartmentForm implements IComponent {
 
     render(params) {
         const department: IDepartment = params == null ? {} : params;
-        $(AppConst.ID).append($('<p/>', {text: 'Create a new department'}));
+        const headerName = department?.id == null ? 'Create a new department' : 'Edit department';
+        const buttonName = department?.id == null ? 'Create' : 'Edit';
+        $(AppConst.ID).append($('<p/>', {text: headerName}));
         const form = $('<form/>',
             {id: 'create-department-form-id', method: 'POST'})
         const inputDiv = $('<div/>').append(
-            $('<span/>', {text: 'Department name:'}),
+            $('<span/>', {text: 'Name:'}),
             $('<input/>',
                 {type: 'hidden', value: department?.id, name: 'id', id: 'id'}),
             $('<input/>',
@@ -30,7 +32,7 @@ export class DepartmentForm implements IComponent {
                 }));
         const errorDiv = $('<div/>', {id: 'error-div'});
         const actionDiv = $('<div/>').append(
-            $('<button/>', {text: 'Create', type: 'submit'}),
+            $('<button/>', {text: buttonName, type: 'submit'}),
             $('<a/>', {
                 text: 'Back',
                 id: 'back-button',

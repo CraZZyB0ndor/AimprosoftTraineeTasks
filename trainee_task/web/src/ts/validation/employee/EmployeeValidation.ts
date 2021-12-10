@@ -13,7 +13,7 @@ export class EmployeeValidation implements IValidator {
                     required: true,
                     email: true,
                     remote: {
-                        url: `/employees/exist`,
+                        url: `/api/employees/exist`,
                         type: "GET",
                         contentType: 'application/json',
                         dataType: 'json',

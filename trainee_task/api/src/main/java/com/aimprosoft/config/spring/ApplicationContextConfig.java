@@ -14,15 +14,18 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
@@ -36,7 +39,6 @@ import java.util.*;
 public class ApplicationContextConfig implements WebMvcConfigurer {
 
     private final Environment environment;
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/target/webpack/dist/"};
 
     @Autowired
     @Bean
@@ -50,23 +52,8 @@ public class ApplicationContextConfig implements WebMvcConfigurer {
     @SneakyThrows
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/**").addResourceLocations(
-                    CLASSPATH_RESOURCE_LOCATIONS);
-        /*
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/target/webpack/dist");
-         */
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
     }
-/*
-    @Bean
-    public InternalResourceViewResolver jspViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setPrefix("classpath:/target/webpack/dist");
-        bean.setSuffix(".html");
-        return bean;
-    }
-
- */
 
     @Autowired
     @Bean

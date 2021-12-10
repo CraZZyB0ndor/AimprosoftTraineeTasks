@@ -9,7 +9,7 @@ export class DepartmentValidation implements IValidator {
                 departmentName: {
                     nameValidation: true,
                     remote: {
-                        url: `/departments/exist`,
+                        url: `/api/departments/exist`,
                         type: "GET",
                         contentType: 'application/json',
                         dataType: 'json',

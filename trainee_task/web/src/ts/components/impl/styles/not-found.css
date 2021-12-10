@@ -1,0 +1,27 @@
+#not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 100px;
+}
+
+#not-found-container>p {
+    font-size: 50px;
+    color: darkred;
+}
+
+#not-found-container>a {
+    margin-top: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    background-color: dodgerblue;
+    padding: 5px;
+    font-size: 25px;
+}
+
+#not-found-container>a:hover {
+    opacity: 0.6;
+}

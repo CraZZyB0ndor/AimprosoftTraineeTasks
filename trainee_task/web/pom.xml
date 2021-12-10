@@ -17,8 +17,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <npm.working.dir>./web</npm.working.dir>
-        <npm.install.directory>target/webpack/dist</npm.install.directory>
+        <npm.install.directory>target</npm.install.directory>
         <node.version>v14.17.0</node.version>
         <npm.version>6.14.13</npm.version>
     </properties>
@@ -40,7 +39,6 @@
                 <configuration>
                     <nodeVersion>${node.version}</nodeVersion>
                     <npmVersion>${npm.version}</npmVersion>
-                    <workingDirectory>${npm.working.dir}</workingDirectory>
                     <installDirectory>${npm.install.directory}</installDirectory>
                 </configuration>
                 <executions>
@@ -68,8 +66,28 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <!-- <arguments>webpack -progress -config webpack.config.prod.js</arguments> -->
                             <arguments>run prod-build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>position-build</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <outputDirectory>target/classes/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>target/webpack/dist</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,6 +1,6 @@
 import {IComponent} from "../../IComponent";
 import {AppConst} from "../../../const/AppConst";
-import "../style/list-style.css"
+import "../styles/list-style.css"
 import {DepartmentService} from "../../../services/impl/DepartmentService";
 import {Router} from "../../../routing/Router";
 
@@ -49,7 +49,7 @@ export class DepartmentList implements IComponent {
                     .append($('<button/>', {text: 'DELETE'})
                         .on('click', () => {
                             this.departmentService.deleteById(department.id).done(() => {
-                                Router.getRoute('#departments')
+                                Router.address('#departments')
                             });
                         })));
             trs.push(tr);

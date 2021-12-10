@@ -1,10 +1,11 @@
-import "../components/impl/style/list-style.css";
+import "../components/impl/styles/list-style.css";
 import {IContainer} from "../containers/IContainer";
-import {DisplayDepartments} from "../containers/impl/department/DisplayDepartments";
-import {DisplayEmployee} from "../containers/impl/employee/DisplayEmployee";
-import {CreateUpdateDepartment} from "../containers/impl/department/CreateUpdateDepartment";
-import {CreateUpdateEmployee} from "../containers/impl/employee/CreateUpdateEmployee";
+import {DisplayDepartments} from "../containers/impl/departments/DisplayDepartments";
+import {DisplayEmployee} from "../containers/impl/employees/DisplayEmployee";
+import {CreateUpdateDepartment} from "../containers/impl/departments/CreateUpdateDepartment";
+import {CreateUpdateEmployee} from "../containers/impl/employees/CreateUpdateEmployee";
 import {AppConst} from "../const/AppConst";
+import {NotFoundContainer} from "../containers/impl/errors/NotFoundContainer";
 
 export class Router {
 
@@ -13,22 +14,24 @@ export class Router {
         .set("#departments/employees", new DisplayEmployee())
         .set("#departments/", new CreateUpdateDepartment())
         .set("#departments/employees/", new CreateUpdateEmployee())
+        .set("#notFound", new NotFoundContainer());
 
-    public static getRoute(hashWithParam: string): void {
+    public static address(hashWithParam: string) {
+        console.log(hashWithParam);
         $(AppConst.ID).html('');
         const hash = this.getHash(hashWithParam);
         const params = this.getParams(hashWithParam);
         if (this.routers.has(hash)) {
-            return this.routers.get(hash).getContent(params);
+            return this.routers.get(hash).renderContent(params);
         }
-        new DisplayDepartments().getContent(params);
+        if(hashWithParam === '') {
+            return new DisplayDepartments().renderContent(params);
+        }
+        new NotFoundContainer().renderContent(params);
     }
 
     private static getHash(hash: string): string {
-        const result =
-            hash.replace(/([0-9]+\/)/, '').replace(/\/[0-9]+/, '/');
-        console.log('HASH --> ' + result);
-        return result;
+        return hash.replace(/([0-9]+\/)/, '').replace(/\/[0-9]+/, '/');
     }
 
     private static getParams(hash: string): Array<any> {
@@ -37,7 +40,6 @@ export class Router {
             hash.replace(pattern, '')
                 .replace(pattern, '_')
                 .replace(/_$/, '');
-        console.log('PARAMS --> ' + result + '\nLength: ' + result.length);
         return result.split('_');
     }
 }

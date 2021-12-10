@@ -1,6 +1,6 @@
 import {IComponent} from "../../IComponent";
 import {AppConst} from "../../../const/AppConst";
-import "../style/list-style.css"
+import "../styles/list-style.css"
 import {EmployeeService} from "../../../services/impl/EmployeeService";
 import {IDepartment} from "../../../models/IDepartment";
 import {Router} from "../../../routing/Router";
@@ -60,7 +60,7 @@ export class EmployeeList implements IComponent {
                     .append($('<button/>', {text: 'DELETE'})
                         .on('click', () => {
                             this.employeeService.deleteById(employee.id).done(() => {
-                                Router.getRoute(`#departments/${department.id}/employees`);
+                                Router.address(`#departments/${department.id}/employees`);
                                 }
                             )
                         })));

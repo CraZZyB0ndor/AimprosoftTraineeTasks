@@ -1,0 +1,47 @@
+<div class="form-container">
+
+  <div class="control-form">
+
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit(employeeForm)">
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" placeholder="Employee's name">
+        <mat-error *ngIf="validateField('name')">
+          Name is incorrect!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="example@gmail.com">
+        <mat-error *ngIf="validateField('email')">
+          Email is incorrect or exist!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Age</mat-label>
+        <input type="number" matInput formControlName="age" placeholder="21">
+        <mat-error *ngIf="validateField('age')">
+          Age is incorrect!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Start working date</mat-label>
+        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" formControlName="startWorkingDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="validateField('startWorkingDate')">
+          Date is incorrect!
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="input-button">
+        <mat-icon aria-label="Example home icon">save</mat-icon>
+      </button>
+    </form>
+
+  </div>
+
+</div>

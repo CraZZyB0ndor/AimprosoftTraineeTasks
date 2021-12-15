@@ -1,0 +1,55 @@
+<div class="model-list-container">
+
+  <mat-spinner *ngIf="!department" class="table-loading"></mat-spinner>
+
+  <div class="main-elements-of-list">
+
+    <p class="mat-h2" *ngIf="department && department.employees!.length == 0">There is no employees!</p>
+
+    <table mat-table [dataSource]="department.employees!" class="mat-elevation-z8, model-data-table"
+           *ngIf="department && department?.employees && department?.employees?.length != 0">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="th-table">ID</th>
+        <td mat-cell *matCellDef="let employee" class="td-table"> {{employee.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="th-table">Name</th>
+        <td mat-cell *matCellDef="let employee" class="td-table">{{employee.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef class="th-table">Email</th>
+        <td mat-cell *matCellDef="let employee" class="td-table">{{employee.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef class="th-table">Age</th>
+        <td mat-cell *matCellDef="let employee" class="td-table">{{employee.age}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="startWorkingDate">
+        <th mat-header-cell *matHeaderCellDef class="th-table">Start working date</th>
+        <td mat-cell *matCellDef="let employee" class="td-table">{{correctDate(employee.startWorkingDate)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="th-table">Actions</th>
+        <td mat-cell *matCellDef="let employee" class="td-action-table">
+          <div>
+            <button mat-raised-button color="primary" (click)="navigateToEmployeeForm(employee)">
+              <mat-icon aria-label="Example home icon">edit</mat-icon>
+            </button>
+            <button mat-raised-button color="warn" (click)="deleteEmployeeById(employee)">
+              <mat-icon aria-label="Example home icon">delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

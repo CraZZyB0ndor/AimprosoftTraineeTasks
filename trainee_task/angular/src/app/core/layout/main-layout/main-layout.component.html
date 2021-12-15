@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  Aimprosoft trainee project
+  <div class="vertical-line"></div>
+  <span>{{currentRoute}}</span>
+  <span class="spacer"></span>
+  <span *ngFor="let button of controlButtons">
+    <button mat-raised-button [routerLink]="button.router">
+      {{button.text}}
+      <mat-icon aria-label="Example home icon" *ngIf="button.iconName">{{button.iconName}}</mat-icon>
+    </button>
+  </span>
+  <button mat-raised-button color="primary" routerLink="departments" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+    <mat-icon aria-label="Example home icon">home</mat-icon>
+  </button>
+</mat-toolbar>
+<main>
+  <router-outlet></router-outlet>
+</main>

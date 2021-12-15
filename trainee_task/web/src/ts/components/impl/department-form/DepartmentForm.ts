@@ -46,7 +46,6 @@ export class DepartmentForm implements IComponent {
         let validator = this.departmentValidation.validate(formId);
         $(formId).on('submit', (event) => {
                 event.preventDefault();
-                console.log($("#departmentName").val());
                 if (validator.errorList.length == 0) {
                     const department: IDepartment = {
                         id: RequestUtils.getNumber($("input[name=id]").val()),

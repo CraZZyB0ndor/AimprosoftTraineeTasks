@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/api/employees/exist")
-    public Employee getEmployeeById(@RequestParam final String email) throws CRUDException {
+    public Employee getEmployeeByEmail(@RequestParam final String email) throws CRUDException {
         return employeeService.getByEmail(email);
     }
 

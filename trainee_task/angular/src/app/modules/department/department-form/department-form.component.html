@@ -1,0 +1,20 @@
+<div class="form-container">
+
+  <div class="control-form">
+
+    <form [formGroup]="departmentForm" (ngSubmit)="onSubmit(departmentForm)">
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" placeholder="Department's name">
+        <mat-error *ngIf="validateField('name')">
+          Department is incorrect or exist!
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="input-button">
+        <mat-icon aria-label="Example home icon">save</mat-icon>
+      </button>
+    </form>
+
+  </div>
+
+</div>

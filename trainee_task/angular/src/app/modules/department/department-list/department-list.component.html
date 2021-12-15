@@ -1,0 +1,41 @@
+<div class="model-list-container">
+
+  <mat-spinner *ngIf="!departments" class="table-loading"></mat-spinner>
+
+  <div class="main-elements-of-list">
+
+    <p class="mat-h2" *ngIf="departments && departments.length == 0">There is no department!</p>
+
+    <table mat-table [dataSource]="departments" class="mat-elevation-z8, model-data-table"
+           *ngIf="departments && departments.length != 0">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="th-table"> ID</th>
+        <td mat-cell *matCellDef="let department" class="td-table"> {{department.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="th-table"> Name</th>
+        <td mat-cell *matCellDef="let department" class="td-table"
+            (click)="navigateToEmployeeList(department)">{{department.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="th-table"> Actions</th>
+        <td mat-cell *matCellDef="let department" class="td-action-table">
+          <div>
+            <button mat-raised-button color="primary" (click)="navigateToDepartmentForm(department)">
+              <mat-icon aria-label="Example home icon">edit</mat-icon>
+            </button>
+            <button mat-raised-button color="warn" (click)="deleteDepartmentById(department)">
+              <mat-icon aria-label="Example home icon">delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
